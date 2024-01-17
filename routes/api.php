@@ -68,17 +68,16 @@ Route::delete('/tasks/{id}', [TaskController::class, 'destroy']);
 /**
  * Get groups by task
  *
- * @param Task $task The task object
+ *
  */
-Route::get('/task/{task}/groups', [groupTaskController::class, 'getGroupsByTask']);
-
+Route::get('/task/{taskId}/group', [TaskController::class, 'getGroupByTask']); /* not working for now */
 // Employee routes
 
 // Get all Employees
 Route::get('/employee', [EmployeeController::class, 'index']);
 
 // Search Employees by name
-Route::get('/employee/search', [EmployeeController::class, 'searchByName']);
+Route::get('/employee/search', [EmployeeController::class, 'searchByEmail']);
 
 // Create a new employee
 Route::post('/employee', [EmployeeController::class, 'store']);
@@ -94,6 +93,11 @@ Route::post('/employee/{id}/image', [EmployeeController::class, 'saveEmployeeIma
 
 // Get tasks by Employee
 Route::get('/employee/{employee}/tasks', [EmployeeController::class, 'getTasksByEmployee']);
+
+Route::post('/login', [EmployeeController::class, 'login']);
+
+Route::post('/register', [EmployeeController::class, 'register']);
+
 
 // group routes
 

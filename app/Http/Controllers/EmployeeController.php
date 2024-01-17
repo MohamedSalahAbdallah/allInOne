@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
 {
@@ -24,15 +26,15 @@ public function index()
  * @param  \Illuminate\Http\Request  $request
  * @return \Illuminate\Database\Eloquent\Collection|Employee[]
  */
-public function searchByName(Request $request)
+public function searchByEmail(Request $request)
 {
     $request->validate([
-        'last_name' => 'required|string',
+        'email' => 'required|string',
     ]);
 
-    $last_name = $request->input('last_name');
+    $last_name = $request->input('eamil');
 
-    $employees = Employee::where('last_name', 'like', '%' . $last_name . '%')->get();
+    $employees = Employee::where('email', 'like', '%' . $last_name . '%')->get();
 
     return $employees;
 }
@@ -116,6 +118,62 @@ public function getTasksByEmployee(Employee $employee)
     $tasks = $employee->task;
 
     return response()->json($tasks);
+}
+
+public function login(Request $request){
+    $val=Validator::make($request->all(),[
+        'email'=>'required|email',
+        'password'=>'required|min:6',
+    ]);
+    if (!$val->fails()) {
+        # code...
+        if (Employee::where('email',$request->email)&&Employee::where('password',Hash::make($request->password))) {
+            # code...
+            $driverinfo=Employee::where('email',$request->email)->get();
+            return response()->json($driverinfo,200);
+        }else{
+
+            return response()->json('invalidArgument',400);
+        }
+    }else {
+        return response()->json($val->errors(),400);
+    }
+}
+
+public function register(Request $request){
+
+    $request->validate([
+       'first_name'=>'required',
+       'last_name'=>'required',
+       'email'=>'required|email',
+       'phone'=>'required|size:11',
+       'password'=>'required|min:8',
+       'nid'=>'required|size:10',
+       'position'=>'required',
+       'permanent'=>'required',
+
+
+    ]);
+
+    //insert
+
+    $Employee = new Employee;
+    $Employee->first_name=$request->first_name;
+    $Employee->password=Hash::make($request->password);
+    $Employee->last_name=$request->last_name;
+    $Employee->email=$request->email;
+    $Employee->phone=$request->phone;
+    $Employee->nid=$request->nid;
+    $Employee->position=$request->position;
+    $Employee->permanent=$request->permanent;
+    $save =$Employee->save();
+
+
+    if ($save) {
+        return response()->json('done',200);
+    }else {
+        return response()->json('wrong',403);
+    }
 }
 
 }

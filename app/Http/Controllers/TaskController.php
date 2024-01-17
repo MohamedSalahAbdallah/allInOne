@@ -43,10 +43,10 @@ class TaskController extends Controller
     public function getGroupByTask(Task $task){
         $groups = $task->group;
 
-        foreach ($groups as $group) {
+
             # code...
-            return response()->json($group);
-        }
+            return response()->json($groups);
+
     }
 
     public function uploadFile(Request $request, $id)

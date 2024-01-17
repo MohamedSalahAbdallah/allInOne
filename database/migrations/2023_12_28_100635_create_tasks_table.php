@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('location');
             $table->string('assigned_by');
             $table->string('assigned_to');
-            $table->string('file');
+            $table->string('file')->nullable();
         });
     }
 

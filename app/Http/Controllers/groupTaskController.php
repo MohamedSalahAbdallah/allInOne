@@ -13,7 +13,7 @@ class groupTaskController extends Controller
         $task = Task::findOrFail($taskId);
         $group = group::findOrFail($groupId);
 
-        $task->group()->attach($group);
+        $task->groups()->attach($group);
 
         return response()->json(['message' => 'group attached to the task successfully'], 200);
     }
@@ -23,7 +23,7 @@ class groupTaskController extends Controller
         $task = Task::findOrFail($taskId);
         $group = group::findOrFail($groupId);
 
-        $task->group()->detach($group);
+        $group->tasks()->attach($task);
 
         return response()->json(['message' => 'group detached from the task successfully'], 200);
     }
