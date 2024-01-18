@@ -94,9 +94,9 @@ Route::post('/employee/{id}/image', [EmployeeController::class, 'saveEmployeeIma
 // Get tasks by Employee
 Route::get('/employee/{employee}/tasks', [EmployeeController::class, 'getTasksByEmployee']);
 
-Route::post('/login', [EmployeeController::class, 'login']);
+Route::post('/employee/login', [EmployeeController::class, 'login']);
 
-Route::post('/register', [EmployeeController::class, 'register']);
+Route::post('/employee/register', [EmployeeController::class, 'register']);
 
 
 // group routes

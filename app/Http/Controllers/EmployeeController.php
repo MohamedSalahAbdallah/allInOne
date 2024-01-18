@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -120,52 +121,62 @@ public function getTasksByEmployee(Employee $employee)
     return response()->json($tasks);
 }
 
-public function login(Request $request){
-    $val=Validator::make($request->all(),[
-        'email'=>'required|email',
-        'password'=>'required|min:6',
+public function login(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|email',
+        'password' => 'required|min:8',
     ]);
-    if (!$val->fails()) {
-        # code...
-        if (Employee::where('email',$request->email)&&Employee::where('password',Hash::make($request->password))) {
-            # code...
-            $driverinfo=Employee::where('email',$request->email)->get();
-            return response()->json($driverinfo,200);
-        }else{
 
-            return response()->json('invalidArgument',400);
-        }
-    }else {
-        return response()->json($val->errors(),400);
+    if ($validator->fails()) {
+        // If validation fails, return the validation errors
+        return response()->json($validator->errors(), 400);
+    }
+
+    $employee = Employee::where('email', $request->email)
+                    ->first();
+
+    if ($employee && Hash::check($request->password,$employee->password)) {
+        // If employee exists, return the employee details
+        return response()->json($employee, 200);
+    } else {
+        // If employee does not exist, return 'invalidArgument'
+        return response()->json('invalidArgument', 400);
     }
 }
 
 public function register(Request $request){
 
-    $request->validate([
-       'first_name'=>'required',
-       'last_name'=>'required',
-       'email'=>'required|email',
-       'phone'=>'required|size:11',
-       'password'=>'required|min:8',
-       'nid'=>'required|size:10',
-       'position'=>'required',
-       'permanent'=>'required',
+    $validator= Validator::make($request->all(),[
 
+        'email'=>'required|string',
+        'password'=>'required|string',
+        'nid'=>'required|numeric',
+        'image'=>'required|image',
+        'gender'=>'required|string',
+        'nationality'=>'required|string',
+        'address'=>'required|string',
+        'job_type'=>'required|string'
 
     ]);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 422);
+    }
 
     //insert
 
     $Employee = new Employee;
-    $Employee->first_name=$request->first_name;
-    $Employee->password=Hash::make($request->password);
-    $Employee->last_name=$request->last_name;
-    $Employee->email=$request->email;
-    $Employee->phone=$request->phone;
-    $Employee->nid=$request->nid;
-    $Employee->position=$request->position;
-    $Employee->permanent=$request->permanent;
+    $Employee->email = $request->email;
+    $Employee->password = Hash::make($request->password);
+    $Employee->nid = $request->nid;
+    $Employee->image = $request->image;
+    $Employee->gender = $request->gender;
+    $Employee->nationality = $request->nationality;
+    $Employee->address = $request->address;
+    $Employee->job_type = $request->job_type;
+    $Employee->job_id=$request->job_id;
+
     $save =$Employee->save();
 
 

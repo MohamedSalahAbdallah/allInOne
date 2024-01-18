@@ -13,7 +13,7 @@ class Employee extends Model
         'first_name',
         'last_name',
         'nid',
-        'position',
+        'job_id',
         'image',
         'permanent',
         'email',
@@ -29,5 +29,13 @@ class Employee extends Model
 
     public function group(){
         return $this->belongsToMany(group::class);
+    }
+
+    public function manager(){
+        return $this->belongsTo(Employee::class, 'manager_id');
+    }
+
+    public function job(){
+        return $this->belongsTo(Job::class, 'job_id');
     }
 }
