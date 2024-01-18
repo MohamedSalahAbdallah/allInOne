@@ -152,7 +152,7 @@ public function register(Request $request){
         'email'=>'required|string',
         'password'=>'required|string',
         'nid'=>'required|numeric',
-        'image'=>'required|image',
+        'image'=>'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         'gender'=>'required|string',
         'nationality'=>'required|string',
         'address'=>'required|string',
@@ -164,13 +164,19 @@ public function register(Request $request){
         return response()->json(['errors' => $validator->errors()], 422);
     }
 
+    $image = $request->file('image');
+    $imageName = time() . '.' . $image->extension();
+
+    // Move the uploaded image to a designated directory
+
+    $image->move(public_path('emp_pic'), $imageName);
     //insert
 
     $Employee = new Employee;
     $Employee->email = $request->email;
     $Employee->password = Hash::make($request->password);
     $Employee->nid = $request->nid;
-    $Employee->image = $request->image;
+    $Employee->image = $imageName;
     $Employee->gender = $request->gender;
     $Employee->nationality = $request->nationality;
     $Employee->address = $request->address;
