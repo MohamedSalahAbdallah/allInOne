@@ -98,6 +98,7 @@ Route::post('/employee/login', [EmployeeController::class, 'login']);
 
 Route::post('/employee/register', [EmployeeController::class, 'register']);
 
+Route::post('/employee/whats',[EmployeeController::class,'whatsApp']);
 
 // group routes
 

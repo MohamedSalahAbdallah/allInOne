@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Twilio\Rest\Client;
 
 class EmployeeController extends Controller
 {
@@ -149,14 +150,41 @@ public function register(Request $request){
 
     $validator= Validator::make($request->all(),[
 
-        'email'=>'required|string',
-        'password'=>'required|string',
-        'nid'=>'required|numeric',
-        'image'=>'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'gender'=>'required|string',
-        'nationality'=>'required|string',
-        'address'=>'required|string',
-        'job_type'=>'required|string'
+        'name'=>'required',
+        'name_ar'=>'required',
+        'nid' => 'required|numeric',
+        'personal_image' => 'required|image',
+        'date_of_birth' => 'required|date',
+        'gender' => 'required|string',
+        'nationality' => 'required|string',
+        'marital_status' => 'required|string',
+        'religion' => 'required|string',
+        'criminal_case' => 'required|image',
+        'id_card_front' => 'required|image',
+        'id_card_back' => 'required|image',
+        'country' => 'required|string',
+        'state' => 'required|string',
+        'address' => 'required|string',
+        'current_country' => 'required|string',
+        'current_state' => 'required|string',
+        'current_address' => 'required|string',
+        'email' => 'required|email',
+        'phone' => 'required|string',
+        'password' => 'required|string',
+        'facebook' => 'nullable|url',
+        'linkedin' => 'nullable|url',
+        'main_language' => 'required|string',
+        'secondary_language' => 'nullable|string',
+        'first_skill' => 'required|string',
+        'first_skill_duration' => 'required|string',
+        'training_name' => 'nullable|string',
+        'training_duration' => 'nullable|string',
+        'training_certificate' => 'nullable|image',
+        'experience' => 'required|string',
+        'job_id'=>'required|numeric'
+
+
+
 
     ]);
 
@@ -164,24 +192,59 @@ public function register(Request $request){
         return response()->json(['errors' => $validator->errors()], 422);
     }
 
-    $image = $request->file('image');
-    $imageName = time() . '.' . $image->extension();
 
-    // Move the uploaded image to a designated directory
+    $keysToCopy = ['personal_image', 'criminal_case','id_card_front','id_card_back', 'training_certificate'];
 
-    $image->move(public_path('emp_pic'), $imageName);
-    //insert
+    $destinationArray = [];
+    $namelist=[];
+    foreach ($keysToCopy as $key) {
+        if (isset($request[$key])) {
+            $destinationArray[$key] = $request[$key];
+        }
+    }
+
+    foreach ($destinationArray as $aimage) {
+        $image = $aimage;
+        $imageName = $image.$request->name .'.' . $image->extension();
+        $image->move(public_path('emp_pics'), $imageName);
+        $namelist[]=$imageName;
+
+    }
 
     $Employee = new Employee;
-    $Employee->email = $request->email;
-    $Employee->password = Hash::make($request->password);
-    $Employee->nid = $request->nid;
-    $Employee->image = $imageName;
-    $Employee->gender = $request->gender;
-    $Employee->nationality = $request->nationality;
-    $Employee->address = $request->address;
-    $Employee->job_type = $request->job_type;
+    $Employee->name=$request->name;
+    $Employee->name_ar=$request->name_ar;
+    $Employee->nid=$request->nid;
+    $Employee->personal_image=$namelist[0];
+    $Employee->date_of_birth=$request->date_of_birth;
+    $Employee->gender=$request->gender;
+    $Employee->nationality=$request->nationality;
+    $Employee->marital_status=$request->marital_status;
+    $Employee->religion=$request->religion;
+    $Employee->criminal_case=$namelist[1];
+    $Employee->id_card_front=$namelist[2];
+    $Employee->id_card_back=$namelist[3];
+    $Employee->country=$request->country;
+    $Employee->state=$request->state;
+    $Employee->address=$request->address;
+    $Employee->current_country=$request->current_country;
+    $Employee->current_state=$request->current_state;
+    $Employee->current_address=$request->current_address;
+    $Employee->email=$request->email;
+    $Employee->phone=$request->phone;
+    $Employee->password=Hash::make($request->password);
+    $Employee->facebook=$request->facebook;
+    $Employee->linkedin=$request->linkedin;
+    $Employee->main_language=$request->main_language;
+    $Employee->secondary_language=$request->secondary_language;
+    $Employee->first_skill=$request->first_skill;
+    $Employee->first_skill_duration=$request->first_skill_duration;
+    $Employee->training_name=$request->training_name;
+    $Employee->training_duration=$request->training_duration;
+    $Employee->training_certificate=$namelist[4];
+    $Employee->experience=$request->experience;
     $Employee->job_id=$request->job_id;
+
 
     $save =$Employee->save();
 
@@ -189,8 +252,28 @@ public function register(Request $request){
     if ($save) {
         return response()->json('done',200);
     }else {
-        return response()->json('wrong',403);
+        return response()->json('failed',403);
     }
+}
+
+
+public function whatsApp(Request $request){
+
+    // require_once '/path/to/vendor/autoload.php';
+
+    $sid    = "AC33da0e06e72f6dea0b634ac529726a66";
+    $token  = "abda4327fdfa61be09b8d55b33543681";
+    $twilio = new Client($sid, $token);
+
+    $message = $twilio->messages
+      ->create("whatsapp:".$request->phone, // to
+        array(
+          "from" => "whatsapp:+14155238886",
+          "body" => 'Your appointment is coming up on July 21 at 3PM'
+        )
+      );
+
+print($message->sid);
 }
 
 }
