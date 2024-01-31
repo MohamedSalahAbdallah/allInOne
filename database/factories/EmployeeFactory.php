@@ -24,18 +24,14 @@ class EmployeeFactory extends Factory
     public function definition()
     {
         return [
-            // 'first_name' => $this->faker->firstName,
-            // 'last_name' => $this->faker->lastName,
-            // 'nid' => $this->faker->unique()->randomNumber,
-            // 'job_id' => $this->faker->numberBetween(1,4),
-            // 'image' => $this->faker->imageUrl,
-            // 'permanent' => $this->faker->boolean,
-            // 'email' => $this->faker->unique()->safeEmail,
-            // 'phone' => $this->faker->phoneNumber,
-            // 'password' => bcrypt('password'), // or use a custom logic to generate a password
-            // 'manager_id' => $this->faker->numberBetween(1,4),
-            // 'gender'=>$this->faker->word(),
-
+            // 'name' => $this->faker->Name,
+            // 'name_ar'=>$this->faker->name,
+            // 'nid'=>$this->faker->randomNumber(8),
+            // 'personal_image'=>$this->faker->image,
+            // 'date_of_birth'=>$this->faker->date,
+            // 'gender'=>$this->faker->word,
+            // 'nationality'=>$this->faker->country,
+            // 'marital_status'=>$this->faker->word,
             ];
     }
 }

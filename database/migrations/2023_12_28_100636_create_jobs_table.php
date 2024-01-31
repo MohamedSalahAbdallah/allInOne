@@ -14,8 +14,11 @@ return new class extends Migration
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('job_code');
             $table->string('name');
             $table->string('description');
+            $table->unsignedBigInteger("department_id");
+            $table->foreign("department_id")->references('id')->on('departments');
             $table->unsignedBigInteger("sub_department_id");
             $table->foreign("sub_department_id")->references('id')->on('sub_departments');
         });

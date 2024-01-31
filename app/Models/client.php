@@ -13,5 +13,7 @@ class client extends Model
       'name',
       'phone',
       'email',
+      'address',
+      'location',
     ];
 }

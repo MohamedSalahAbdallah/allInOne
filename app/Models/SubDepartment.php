@@ -26,4 +26,8 @@ class SubDepartment extends Model
     {
         return $this->hasMany(Job::class);
     }
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

@@ -44,6 +44,7 @@ class Employee extends Model
         'experience',
         'manager_id',
         'job_id',
+        'level',
     ];
 
     public function task()

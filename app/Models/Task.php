@@ -12,9 +12,17 @@ class Task extends Model
     protected $fillable = [
         'description',
         'location',
-        'assigned_by',
-        'assigned_to',
         'file',
+        'starts_at',
+        'ends_at',
+        'starts_time',
+        'end_time',
+        'department_id',
+        'sub_department_id',
+        'employee_id',
+        'site_id',
+
+
     ];
 
     public function employee()
@@ -25,5 +33,14 @@ class Task extends Model
     public function groups()
     {
         return $this->belongsToMany(group::class);
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class ,"department_id");
+    }
+    public function subDepartment()
+    {
+        return $this->belongsTo(SubDepartment::class,"subDepartment_id");
     }
 }

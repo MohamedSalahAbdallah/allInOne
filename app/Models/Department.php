@@ -19,4 +19,12 @@ class Department extends Model
     {
         return $this->hasMany(SubDepartment::class);
     }
+    public function jobs()
+    {
+        return $this->hasMany(Job::class);
+    }
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

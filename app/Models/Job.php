@@ -12,9 +12,15 @@ class Job extends Model
     protected $fillable=[
         "name",
         "description",
-        "sub_department_id"
+        "sub_department_id",
+        "department_id"
+
     ];
 
+    public function department()
+    {
+        return $this->belongsTo(Department::class ,"department_id");
+    }
     public function subDepartment()
     {
         return $this->belongsTo(SubDepartment::class,"subDepartment_id");
@@ -23,4 +29,5 @@ class Job extends Model
     public function Employees(){
         return $this->hasMany(Employee::class);
     }
+
 }
