@@ -13,21 +13,23 @@ class Task extends Model
         'description',
         'location',
         'file',
+        'status',
         'starts_at',
         'ends_at',
         'starts_time',
         'end_time',
         'department_id',
         'sub_department_id',
-        'employee_id',
         'site_id',
+        'user_id',
+        'employee_id',
 
 
     ];
 
     public function employee()
     {
-        return $this->belongsToMany(Employee::class);
+        return $this->belongsTo(Employee::class);
     }
 
     public function groups()
@@ -42,5 +44,8 @@ class Task extends Model
     public function subDepartment()
     {
         return $this->belongsTo(SubDepartment::class,"subDepartment_id");
+    }
+    public function user(){
+        return $this->belongsTo(User::class,"user_id");
     }
 }

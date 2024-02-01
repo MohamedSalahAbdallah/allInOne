@@ -12,6 +12,7 @@ use App\Models\Task;
 use App\Models\group;
 use App\Models\Job;
 use App\Models\SubDepartment;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,8 +25,9 @@ class DatabaseSeeder extends Seeder
        Department::factory()->count(5)->create();
        SubDepartment::factory()->count(5)->create();
        Job::factory()->count(5)->create();
+       User::factory()->count(20)->create();
        Employee::factory()->count(10)->create();
        Task::factory()->count(20)->create();
-       group::factory()->count(5)->create();
+    //    group::factory()->count(5)->create();
     }
 }

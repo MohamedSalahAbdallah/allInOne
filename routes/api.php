@@ -178,3 +178,4 @@ Route::delete('/groups/{groupId}/task/{taskId}/detach', [groupTaskController::cl
 
 // saae crud
 
+Route::post('task/taskbyemployee/{employee_id}',[TaskController::class,'showTasksByEmplyeeId']);

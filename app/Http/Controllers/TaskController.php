@@ -81,4 +81,21 @@ class TaskController extends Controller
         return response()->json(['message' => 'No file uploaded']);
 
     }
+
+    public function showTasksByEmplyeeId(Request $request){
+        $tasks = Task::with(['user','employee','department','subDepartment'])->get();
+        $tasksToShow=[];
+            foreach ($tasks as $task){
+                // return response()->json($task);
+
+                if ($task->employee_id==$request->employee_id) {
+                return response()->json($task);
+
+                }else {
+                    return response()->json("No tasks found");
+                }
+
+            }
+            return response()->json($tasksToShow);
+        }
 }

@@ -49,7 +49,7 @@ class Employee extends Model
 
     public function task()
     {
-        return $this->belongsToMany(Task::class);
+        return $this->hasMany(Task::class);
     }
 
     public function group(){

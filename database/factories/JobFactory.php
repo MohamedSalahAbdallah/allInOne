@@ -12,9 +12,17 @@ class JobFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->jobTitle,
+            'job_code' => $this->faker->unique()->word,
+            'name' => $this->faker->word,
             'description' => $this->faker->sentence,
-            'sub_department_id' => $this->faker->numberBetween(1, 4),
+            'department_id' => function () {
+                return \App\Models\Department::factory()->create()->id;
+            },
+            'sub_department_id' => function () {
+                return \App\Models\SubDepartment::factory()->create()->id;
+            },
+            'status' => $this->faker->randomElement(['active', 'inactive']),
+
         ];
     }
 }

@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employee_task', function (Blueprint $table) {
+        Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-
-            $table->unsignedBigInteger('task_id');
-            $table->unsignedBigInteger('employee_id');
-
-            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
-
+            $table->string("chassis_number");
+            $table->string("engine_number");
+            $table->string("plate_number");
+            $table->string("vehicle_type");
+            $table->string("vehicle_brand");
+            $table->string("vehicle_year");
+            $table->string("vehicle_color");
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employee_task');
+        Schema::dropIfExists('vehicles');
     }
 };
