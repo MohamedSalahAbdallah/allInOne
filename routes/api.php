@@ -8,6 +8,7 @@ use App\Http\Controllers\TaskEmployeeController;
 use App\Http\Controllers\GroupEmployeeController;
 use App\Http\Controllers\groupController;
 use App\Http\Controllers\groupTaskController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +26,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // routes/api.php
+Route::post("user/gentoken/{email}",[UserController::class,"gentoken"]);
+Route::get('/login',function (Request $request) {
+    return response()->json('yep');
+})->name('login');
 
+Route::middleware(['auth:sanctum'])->group(function () {
+    // Your authenticated routes here
+    Route::get('/employees', [EmployeeController::class, 'index']);
+});
 // Task routes
 
 /**
@@ -74,7 +83,7 @@ Route::get('/task/{taskId}/group', [TaskController::class, 'getGroupByTask']); /
 // Employee routes
 
 // Get all Employees
-Route::get('/employee', [EmployeeController::class, 'index']);
+// Route::get('/employee', [EmployeeController::class, 'index']);
 
 // Search Employees by name
 Route::get('/employee/search', [EmployeeController::class, 'searchByEmail']);
@@ -117,23 +126,6 @@ Route::put('/groups/{id}', [groupController::class, 'update']);
 // Delete a group by ID
 Route::delete('/groups/{id}', [groupController::class, 'destroy']);
 
-/**
- * Attach an employee to a task.
- *
- * @param int $taskId The ID of the task.
- * @param int $employeeId The ID of the employee.
- * @return \Illuminate\Http\Response
- */
-Route::post('/tasks/{taskId}/employee/{employeeId}/attach', [TaskEmployeeController::class, 'attachEmployee']);
-
-/**
- * Detach an employee from a task.
- *
- * @param int $taskId The ID of the task.
- * @param int $employeeId The ID of the employee.
- * @return \Illuminate\Http\Response
- */
-Route::delete('/tasks/{taskId}/employee/{employeeId}/detach', [TaskEmployeeController::class, 'detachEmployee']);
 
 // Attach an employee to a group
 /**

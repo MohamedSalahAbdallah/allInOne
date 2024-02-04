@@ -11,6 +11,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Task;
 use App\Models\group;
 use App\Models\Job;
+use App\Models\order;
 use App\Models\SubDepartment;
 use App\Models\User;
 
@@ -29,5 +30,6 @@ class DatabaseSeeder extends Seeder
        Employee::factory()->count(10)->create();
        Task::factory()->count(20)->create();
     //    group::factory()->count(5)->create();
+        order::factory()->count(10)->create();
     }
 }

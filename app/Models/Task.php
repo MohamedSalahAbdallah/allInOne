@@ -29,7 +29,7 @@ class Task extends Model
 
     public function employee()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(Employee::class,'employee_id');
     }
 
     public function groups()
@@ -47,5 +47,8 @@ class Task extends Model
     }
     public function user(){
         return $this->belongsTo(User::class,"user_id");
+    }
+    public function order() {
+        return $this->hasMany(order::class);
     }
 }

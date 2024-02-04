@@ -91,7 +91,7 @@ return new class extends Migration
             // emp job type
             $table->string('job_type')->nullable();
             //emp level
-            $table->integer("level");
+            $table->integer("level")->nullable();
       });
     }
 

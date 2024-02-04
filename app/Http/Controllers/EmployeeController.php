@@ -8,9 +8,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Twilio\Rest\Client;
+use Laravel\Sanctum\Sanctum;
+
+
+
 
 class EmployeeController extends Controller
 {
+    /**
+    * Bootstrap any application services.
+    */
+    public function boot(): void
+    {
+        Sanctum::usePersonalAccessTokenModel(Employee::class);
+    }
+
 
    /**
  * Get all employees.
@@ -19,6 +31,7 @@ class EmployeeController extends Controller
  */
 public function index()
 {
+    $this->authorize('employee_index');
     return Employee::all();
 }
 
@@ -137,9 +150,12 @@ public function login(Request $request)
     $employee = Employee::where('email', $request->email)
                     ->first();
 
+
     if ($employee && Hash::check($request->password,$employee->password)) {
+        $token= $employee->createToken($employee->email)->plainTextToken;
+
         // If employee exists, return the employee details
-        return response()->json($employee, 200);
+        return response()->json($token, 200);
     } else {
         // If employee does not exist, return 'invalidArgument'
         return response()->json('invalidArgument', 400);
@@ -168,7 +184,7 @@ public function register(Request $request){
         'current_country' => 'required|string',
         'current_state' => 'required|string',
         'current_address' => 'required|string',
-        'email' => 'required|email',
+        'email' => 'required|email|unique:employees,email',
         'phone' => 'required|string',
         'password' => 'required|string',
         'facebook' => 'nullable|url',
@@ -247,10 +263,9 @@ public function register(Request $request){
 
 
     $save =$Employee->save();
-
-
+    $token= $Employee->createToken($Employee->email)->plainTextToken;
     if ($save) {
-        return response()->json('done',200);
+        return response()->json($token,200);
     }else {
         return response()->json('failed',403);
     }

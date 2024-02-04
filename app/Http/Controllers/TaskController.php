@@ -83,19 +83,14 @@ class TaskController extends Controller
     }
 
     public function showTasksByEmplyeeId(Request $request){
-        $tasks = Task::with(['user','employee','department','subDepartment'])->get();
-        $tasksToShow=[];
-            foreach ($tasks as $task){
-                // return response()->json($task);
+        $tasks = Task::with(['user','employee','department','subDepartment','order'])
+        ->where('employee_id', $request->employee_id)
+        ->get();
 
-                if ($task->employee_id==$request->employee_id) {
-                return response()->json($task);
-
-                }else {
-                    return response()->json("No tasks found");
-                }
-
-            }
-            return response()->json($tasksToShow);
+        if ($tasks->isEmpty()) {
+        return response()->json("No tasks found");
+        } else {
+        return response()->json($tasks);
         }
+    }
 }

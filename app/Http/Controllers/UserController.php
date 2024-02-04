@@ -31,5 +31,13 @@ class UserController extends Controller
         return response()->json(['message' => 'User deleted']);
     }
 
+    public function gentoken(Request $request){
+
+        $user = User::where('email', $request->email)->first();
+        $user->createToken($request->email);
+
+        // Return token
+        return response()->json($user->createToken($request->email)->plainTextToken);
+    }
 
 }
