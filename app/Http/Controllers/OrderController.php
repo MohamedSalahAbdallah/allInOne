@@ -29,10 +29,10 @@ class OrderController extends Controller
             'gender'=>'required',
             'priority'=>'required',
             'price'=>'required',
-            'iron'=>'required',
-            'rafa'=>'required',
-            'wash'=>'required',
-            'tincture'=>'required',
+            'action.iron'=>'required',
+            'action.rafa'=>'required',
+            'action.wash'=>'required',
+            'action.tincture'=>'required',
             'task_id'=>'required',
         ]);
 
