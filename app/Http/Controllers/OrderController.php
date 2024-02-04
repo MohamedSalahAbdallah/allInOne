@@ -44,10 +44,7 @@ class OrderController extends Controller
     {
         $order = order::findOrFail($id);
 
-        $request->validate([
-            'name' => 'required',
-            'description' => 'nullable',
-        ]);
+
 
         $order->update($request->all());
         return response()->json(['order' => $order]);
