@@ -30,7 +30,10 @@ class supplier extends Model
 
 
     public function branches(){
-
         return $this->hasMany(branch::class);
+    }
+    public function sector()
+    {
+        return $this->belongsTo(sector::class);
     }
 }

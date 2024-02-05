@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BranchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
@@ -9,7 +10,10 @@ use App\Http\Controllers\GroupEmployeeController;
 use App\Http\Controllers\groupController;
 use App\Http\Controllers\groupTaskController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SectorController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VehicleController;
 use App\Models\order;
 
 /*
@@ -182,3 +186,11 @@ Route::put("/orders/{id}",[OrderController::class,"update"]);
 Route::delete("/orders/{id}",[OrderController::class,"destroy"]);
 Route::post("/orders",[OrderController::class,"store"]);
 Route::post("/orders/tasks/{task_id}",[OrderController::class,"GetOrderByTask"]);
+
+// sectors
+// Route::apiResource('/sectors', [SectorController::class]);
+
+Route::apiResources(['/sectors'=>SectorController::class]);
+Route::apiResources(['/suppliers'=>SupplierController::class]);
+Route::apiResources(['/branches'=>BranchController::class]);
+Route::apiResources(['/vehicles'=>VehicleController::class]);

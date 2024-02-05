@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\branch;
 use App\Models\Department;
 use App\Models\Employee;
 use Illuminate\Database\Seeder;
@@ -12,8 +13,11 @@ use App\Models\Task;
 use App\Models\group;
 use App\Models\Job;
 use App\Models\order;
+use App\Models\sector;
 use App\Models\SubDepartment;
+use App\Models\supplier;
 use App\Models\User;
+use App\Models\vehicle;
 
 class DatabaseSeeder extends Seeder
 {
@@ -31,5 +35,10 @@ class DatabaseSeeder extends Seeder
        Task::factory()->count(20)->create();
     //    group::factory()->count(5)->create();
         order::factory()->count(10)->create();
+        //
+        sector::factory()->count(10)->create();
+        supplier::factory()->count(10)->create();
+        branch::factory()->count(10)->create();
+        vehicle::factory()->count(10)->create();
     }
 }
