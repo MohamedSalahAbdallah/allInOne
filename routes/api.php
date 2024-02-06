@@ -14,7 +14,6 @@ use App\Http\Controllers\SectorController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
-use App\Models\order;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,12 +40,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Your authenticated routes here
     Route::get('/employees', [EmployeeController::class, 'index']);
 });
+Route::get('/tasks', [TaskController::class, 'index']);
 // Task routes
 
 /**
  * Get all tasks
  */
-Route::get('/tasks', [TaskController::class, 'index']);
 
 // Upload file with task route
 Route::post('/tasks/{id}/upload', [TaskController::class, 'uploadFile']);
@@ -180,17 +179,50 @@ Route::post('task/taskbyemployee/{employee_id}',[TaskController::class,'showTask
 
 
 //order routes
+/**
+ * Get all orders
+ */
 Route::get('/orders',[OrderController::class,"index"]);
+
+/**
+ * Get a specific order by ID
+ */
 Route::get("/orders/{id}",[OrderController::class,"show"]);
+
+/**
+ * Update an order by ID
+ */
 Route::put("/orders/{id}",[OrderController::class,"update"]);
+
+/**
+ * Delete an order by ID
+ */
 Route::delete("/orders/{id}",[OrderController::class,"destroy"]);
+
+/**
+ * Create a new order
+ */
 Route::post("/orders",[OrderController::class,"store"]);
+
+/**
+ * Get orders by task ID
+ */
 Route::post("/orders/tasks/{task_id}",[OrderController::class,"GetOrderByTask"]);
 
 // sectors
 // Route::apiResource('/sectors', [SectorController::class]);
 
+// Define API resources for sectors
 Route::apiResources(['/sectors'=>SectorController::class]);
+
+// Define API resources for suppliers
 Route::apiResources(['/suppliers'=>SupplierController::class]);
+
+// Define API resources for branches
 Route::apiResources(['/branches'=>BranchController::class]);
+
+// Define API resources for vehicles
 Route::apiResources(['/vehicles'=>VehicleController::class]);
+
+
+Route::post('/tastks/settrue/{task_id}',[TaskController::class,"setValueTrue"]);

@@ -30,11 +30,15 @@ return new class extends Migration
             $table->time('starts_time')->nullable();
             //end time
             $table->time("end_time")->nullable();
+            //arrived at client
+            $table->boolean("arrived_at_client")->default(false);
+            // arrived at site
+            $table->boolean("arrived_at_site")->default(false);
             //department id
             $table->unsignedBigInteger("department_id");
             $table->foreign("department_id")->references('id')->on('departments');
-            $table->unsignedBigInteger("sub_department_id");
-            $table->foreign("sub_department_id")->references('id')->on('sub_departments');
+            $table->unsignedBigInteger("subDepartment_id");
+            $table->foreign("subDepartment_id")->references('id')->on('sub_departments');
 
             //user id
             $table->unsignedBigInteger("user_id");
@@ -42,6 +46,9 @@ return new class extends Migration
             //Employee ID foreign key from employee table.
             $table->unsignedBigInteger("employee_id");
             $table->foreign("employee_id")->references('id')->on('employees');
+            //supplier id
+            $table->unsignedBigInteger("supplier_id")->nullable();
+            $table->foreign("supplier_id")->references('id')->on('suppliers');
             //site id
             $table->unsignedBigInteger("site_id")->nullable();
         });

@@ -21,7 +21,7 @@ class SupplierFactory extends Factory
             'sector_id'=>$this->faker->numberBetween(1,10),
             'trade_license'=>$this->faker->name,
             'registry_office'=>$this->faker->name,
-            "trade_license_number"=>$this->faker->unique()->numberBetween(1,10),
+            "trade_license_number"=>$this->faker->unique()->numberBetween(0,5000),
             "directorate"=>$this->faker->name(),
             "director_name"=>$this->faker->name(),
             "phone_number"=>$this->faker->unique()->phoneNumber(),

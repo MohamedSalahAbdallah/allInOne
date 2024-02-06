@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('type');
             $table->string('style');
             $table->integer('count');
-            $table->integer('gender');
+            $table->string('gender');
             $table->integer('priority');
-            $table->integer('price');
+            $table->integer('price')->default(444);
             $table->boolean('iron')->default(false);
             $table->boolean('rafa')->default(false);
             $table->boolean('wash')->default(false);
