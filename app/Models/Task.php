@@ -21,8 +21,11 @@ class Task extends Model
         'department_id',
         'sub_department_id',
         'site_id',
+        'supplier_id',
         'user_id',
         'employee_id',
+        'arrived_at_client',
+        'arrived_at_site',
 
 
     ];
@@ -47,6 +50,10 @@ class Task extends Model
     }
     public function user(){
         return $this->belongsTo(User::class,"user_id");
+    }
+
+    public function supplier(){
+        return $this->belongsTo(Supplier::class,"supplier_id");
     }
     public function order() {
         return $this->hasMany(order::class);

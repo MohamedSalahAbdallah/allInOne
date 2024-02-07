@@ -260,12 +260,10 @@ public function register(Request $request){
     $Employee->training_certificate=$namelist[4];
     $Employee->experience=$request->experience;
     $Employee->job_id=$request->job_id;
-
-
     $save =$Employee->save();
     $token= $Employee->createToken($Employee->email)->plainTextToken;
     if ($save) {
-        return response()->json($token,200);
+        return response()->json([$token,$Employee],200);
     }else {
         return response()->json('failed',403);
     }

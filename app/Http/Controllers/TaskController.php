@@ -11,12 +11,12 @@ class TaskController extends Controller
 {
     public function index()
     {
-        return Task::all();
+        return Task::with(['user','employee','department','subDepartment','order','supplier'])->get();
     }
 
     public function show($id)
     {
-        return Task::find($id);
+        return Task::with(['user','order','supplier'])->findOrFail($id);
     }
 
     public function store(Request $request)
@@ -92,5 +92,12 @@ class TaskController extends Controller
         } else {
         return response()->json($tasks);
         }
+    }
+
+    public function setValueTrue(Request $request){
+        //update arrived at client value
+        $task = Task::findOrFail($request->task_id);
+        $task->arrived_at_client = true;
+        $task->save();
     }
 }

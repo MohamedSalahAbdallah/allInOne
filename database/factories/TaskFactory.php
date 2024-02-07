@@ -33,7 +33,7 @@ class TaskFactory extends Factory
             'department_id' => function () {
                 return \App\Models\Department::factory()->create()->id;
             },
-            'sub_department_id' => function () {
+            'subDepartment_id' => function () {
                 return \App\Models\SubDepartment::factory()->create()->id;
             },
             'user_id' => function () {
@@ -43,6 +43,7 @@ class TaskFactory extends Factory
             'employee_id' => function () {
                 return \App\Models\Employee::factory()->create()->id;
             },
+            'supplier_id' => $this->faker->randomElement([1, 2, 3]),
         ];
     }
 }

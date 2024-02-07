@@ -36,4 +36,8 @@ class supplier extends Model
     {
         return $this->belongsTo(sector::class);
     }
+
+    public function tasks() {
+        $this->hasMany(Task::class);
+    }
 }
