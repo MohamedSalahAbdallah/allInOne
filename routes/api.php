@@ -10,6 +10,7 @@ use App\Http\Controllers\GroupEmployeeController;
 use App\Http\Controllers\groupController;
 use App\Http\Controllers\groupTaskController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\RealationsController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
@@ -194,3 +195,23 @@ Route::apiResources(['/sectors'=>SectorController::class]);
 Route::apiResources(['/suppliers'=>SupplierController::class]);
 Route::apiResources(['/branches'=>BranchController::class]);
 Route::apiResources(['/vehicles'=>VehicleController::class]);
+
+//Realations
+Route::get('/sector/{id}/suppliers',[RealationsController::class , 'sectorSuppliers']);
+Route::get('/supplier/{id}/branches',[RealationsController::class , 'supplierBranches']);
+
+Route::get('/department/{id}/supdepartments',[RealationsController::class , 'departmentSupdepartments']);
+Route::get('/department/{id}/jobs',[RealationsController::class , 'departmentJobs']);
+Route::get('/department/{id}/tasks',[RealationsController::class , 'departmentTasks']);
+
+Route::get('/employee/{id}/tasks',[RealationsController::class , 'employeeTasks']);
+
+Route::get('job/{id}/employees' , [RealationsController::class , 'jobEmployees']);
+
+Route::get('subdepartment/{id}/jobs' , [RealationsController::class , 'subDepartmentJobs']);
+Route::get('subdepartment/{id}/tasks' , [RealationsController::class , 'subDepartmentTasks']);
+
+Route::get('task/{id}/orders' , [RealationsController::class , 'taskOrders']);
+
+Route::get('user/{id}/tasks' , [RealationsController::class , 'userTasks']);
+
