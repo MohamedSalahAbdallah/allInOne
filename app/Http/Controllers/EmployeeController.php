@@ -166,100 +166,132 @@ public function register(Request $request){
 
     $validator= Validator::make($request->all(),[
 
-        'name'=>'required',
-        'name_ar'=>'required',
-        'nid' => 'required|numeric',
-        'personal_image' => 'required|image',
-        'date_of_birth' => 'required|date',
-        'gender' => 'required|string',
-        'nationality' => 'required|string',
-        'marital_status' => 'required|string',
+        'nameArabic' => 'required|string',
+        'nameEnglish' => 'required|string',
+        'date' => 'required|date',
+        'type' => 'required|string|in:male,female',
         'religion' => 'required|string',
-        'criminal_case' => 'required|image',
-        'id_card_front' => 'required|image',
-        'id_card_back' => 'required|image',
-        'country' => 'required|string',
-        'state' => 'required|string',
-        'address' => 'required|string',
-        'current_country' => 'required|string',
-        'current_state' => 'required|string',
-        'current_address' => 'required|string',
-        'email' => 'required|email|unique:employees,email',
-        'phone' => 'required|string',
-        'password' => 'required|string',
-        'facebook' => 'nullable|url',
-        'linkedin' => 'nullable|url',
-        'main_language' => 'required|string',
-        'secondary_language' => 'nullable|string',
-        'first_skill' => 'required|string',
-        'first_skill_duration' => 'required|string',
-        'training_name' => 'nullable|string',
-        'training_duration' => 'nullable|string',
-        'training_certificate' => 'nullable|image',
-        'experience' => 'required|string',
-        'job_id'=>'required|numeric'
-
+        'nationality' => 'required|string',
+        'photoPersonal' => 'required|string',
+        'newCountry' => 'required|string',
+        'newState' => 'required|string',
+        'newAddress' => 'required|string',
+        'addressGoogle' => 'required|string',
+        'phoneNumber' => 'required|string',
+        'homeNumber' => 'nullable|string',
+        'email' => 'required|email|unique:employees',
+        'password' => 'required|string|min:8',
+        'social' => 'nullable|string',
+        'mainLanguage' => 'nullable|string',
+        'secondLanguage' => 'nullable|string',
+        'oneSkill' => 'nullable|string',
+        'durationSkill' => 'nullable|string',
+        'secSkill' => 'nullable|string',
+        'durationSkillTwo' => 'nullable|string',
+        'thirdSkill' => 'nullable|string',
+        'durationSkillthird' => 'nullable|string',
+        'photoCertificates' => 'nullable|string',
+        'trainingNameOne' => 'nullable|string',
+        'trainingTimeOne' => 'nullable|string',
+        'PhotosTrainingCertificateOne' => 'nullable|string',
+        'trainingNameSec' => 'nullable|string',
+        'trainingTimeSec' => 'nullable|string',
+        'PhotosTrainingCertificateSec' => 'nullable|string',
+        'trainingNameThird' => 'nullable|string',
+        'trainingTimeThird' => 'nullable|string',
+        'PhotosTrainingCertificateThird' => 'nullable|string',
+        'experience' => 'nullable|string',
+        'areaExpertis' => 'nullable|string',
+        'howLongExpertise' => 'nullable|string',
+        'maritalStatus' => 'nullable|string',
+        'healthStatus' => 'nullable|string',
+        'nationalId' => 'nullable|string',
+        'criminalCase' => 'nullable|string',
+        'militaryService' => 'nullable|string',
+        'areaExpertise' => 'nullable|string',
+        'photoIdCardFront'=>'nullable|string',
+        'photoIdCardBack'=>'nullable|string',
+        'passportPhoto'=>'nullable|string',
+        'numberBassbor'=>'nullable|string',
 
 
 
     ]);
 
     if ($validator->fails()) {
-        return response()->json(['errors' => $validator->errors()], 422);
+        return response()->json([$validator->errors()], 422);
     }
 
 
-    $keysToCopy = ['personal_image', 'criminal_case','id_card_front','id_card_back', 'training_certificate'];
+    // $keysToCopy = ['personal_image', 'criminal_case','id_card_front','id_card_back', 'training_certificate'];
 
-    $destinationArray = [];
-    $namelist=[];
-    foreach ($keysToCopy as $key) {
-        if (isset($request[$key])) {
-            $destinationArray[$key] = $request[$key];
-        }
-    }
+    // $destinationArray = [];
+    // $namelist=[];
+    // foreach ($keysToCopy as $key) {
+    //     if (isset($request[$key])) {
+    //         $destinationArray[$key] = $request[$key];
+    //     }
+    // }
 
-    foreach ($destinationArray as $aimage) {
-        $image = $aimage;
-        $imageName = $image.$request->name .'.' . $image->extension();
-        $image->move(public_path('emp_pics'), $imageName);
-        $namelist[]=$imageName;
+    // foreach ($destinationArray as $aimage) {
+    //     $image = $aimage;
+    //     $imageName = $image.$request->name .'.' . $image->extension();
+    //     $image->move(public_path('emp_pics'), $imageName);
+    //     $namelist[]=$imageName;
 
-    }
+    // }
 
     $Employee = new Employee;
-    $Employee->name=$request->name;
-    $Employee->name_ar=$request->name_ar;
-    $Employee->nid=$request->nid;
-    $Employee->personal_image=$namelist[0];
-    $Employee->date_of_birth=$request->date_of_birth;
-    $Employee->gender=$request->gender;
+    $Employee->name=$request->nameEnglish;
+    $Employee->name_ar=$request->nameArabic;
+    $Employee->nid=$request->nationalId;
+    $Employee->personal_image=$request->photoPersonal;
+    $Employee->date_of_birth=$request->date;
+    $Employee->gender=$request->type;
     $Employee->nationality=$request->nationality;
-    $Employee->marital_status=$request->marital_status;
+    $Employee->marital_status=$request->maritalStatus;
     $Employee->religion=$request->religion;
-    $Employee->criminal_case=$namelist[1];
-    $Employee->id_card_front=$namelist[2];
-    $Employee->id_card_back=$namelist[3];
-    $Employee->country=$request->country;
-    $Employee->state=$request->state;
-    $Employee->address=$request->address;
-    $Employee->current_country=$request->current_country;
-    $Employee->current_state=$request->current_state;
-    $Employee->current_address=$request->current_address;
+    $Employee->criminal_case=$request->criminalCase;
+    $Employee->location=$request->addressGoogle;
+    $Employee->health=$request->healthStatus;
+    $Employee->military_service=$request->militaryService;
+    $Employee->current_country=$request->newCountry;
+    $Employee->current_state=$request->newState;
+    $Employee->current_address=$request->newAddress;
     $Employee->email=$request->email;
-    $Employee->phone=$request->phone;
     $Employee->password=Hash::make($request->password);
-    $Employee->facebook=$request->facebook;
-    $Employee->linkedin=$request->linkedin;
-    $Employee->main_language=$request->main_language;
-    $Employee->secondary_language=$request->secondary_language;
-    $Employee->first_skill=$request->first_skill;
-    $Employee->first_skill_duration=$request->first_skill_duration;
-    $Employee->training_name=$request->training_name;
-    $Employee->training_duration=$request->training_duration;
-    $Employee->training_certificate=$namelist[4];
+    $Employee->phone=$request->phoneNumber;
+    $Employee->home_number=$request->homeNumber;
+    $Employee->social_media=$request->social;
+    $Employee->main_language=$request->mainLanguage;
+    $Employee->secondary_language=$request->secondLanguage;
+    $Employee->first_skill=$request->oneSkill;
+    $Employee->first_skill_duration=$request->durationSkill;
+    $Employee->second_skill=$request->secSkill;
+    $Employee->second_skill_duration=$request->durationSkillTwo;
+    $Employee->third_skill=$request->thirdSkill;
+    $Employee->third_skill_duration=$request->durationSkillthird;
+    $Employee->first_training_name=$request->trainingNameOne;
+    $Employee->first_training_duration=$request->trainingTimeOne;
+    $Employee->first_training_certificate=$request->PhotosTrainingCertificateOne;
+    $Employee->second_training_name=$request->trainingNameSec;
+    $Employee->second_training_duration=$request->trainingTimeSec;
+    $Employee->second_training_certificate=$request->PhotosTrainingCertificateSec;
+    $Employee->third_training_name=$request->trainingNameThird;
+    $Employee->third_training_duration=$request->trainingTimeThird;
+    $Employee->third_training_certificate=$request->PhotosTrainingCertificateThird;
     $Employee->experience=$request->experience;
-    $Employee->job_id=$request->job_id;
+    $Employee->area_of_expertise=$request->areaExpertis;
+    $Employee->experience_duration=$request->howLongExpertise;
+    $Employee->id_card_front=$request->photoIdCardFront;
+    $Employee->id_card_back=$request->photoIdCardBack;
+    $Employee->passport_image=$request->passportPhoto;
+    $Employee->passport_number=$request->numberBassbor;
+
+
+
+
+
     $save =$Employee->save();
     $token= $Employee->createToken($Employee->email)->plainTextToken;
     if ($save) {

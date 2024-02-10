@@ -246,4 +246,6 @@ Route::get('user/{id}/tasks' , [RealationsController::class , 'userTasks']);
 
 
 
-Route::post('/tastks/settrue/{task_id}',[TaskController::class,"setValueTrue"]);
+Route::post('/tasks/settrueatclint/{task_id}',[TaskController::class,"setValueTrue"]);
+Route::post('/tasks/settrueatsite/{task_id}',[TaskController::class,"setValueTrueatsite"]);
+
