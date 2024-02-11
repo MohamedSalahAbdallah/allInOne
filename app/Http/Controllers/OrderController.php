@@ -17,7 +17,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = order::findOrFail($id);
-        return response()->json(['order' => $order]);
+        return response()->json($order);
     }
 
     public function store(Request $request)
