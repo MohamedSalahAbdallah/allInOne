@@ -15,13 +15,18 @@ use Laravel\Sanctum\Sanctum;
 
 class EmployeeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     /**
     * Bootstrap any application services.
     */
-    public function boot(): void
-    {
-        Sanctum::usePersonalAccessTokenModel(Employee::class);
-    }
+
+    // public function boot(): void
+    // {
+    //     Sanctum::usePersonalAccessTokenModel(Employee::class);
+    // }
 
 
    /**
@@ -31,8 +36,9 @@ class EmployeeController extends Controller
  */
 public function index()
 {
-    $this->authorize('employee_index');
+    // $this->authorize('employee_index');
     return Employee::all();
+
 }
 
 /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BillController;
 use App\Http\Controllers\BranchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -9,6 +10,7 @@ use App\Http\Controllers\TaskEmployeeController;
 use App\Http\Controllers\GroupEmployeeController;
 use App\Http\Controllers\groupController;
 use App\Http\Controllers\groupTaskController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RealationsController;
 use App\Http\Controllers\SectorController;
@@ -27,20 +29,22 @@ use App\Http\Controllers\VehicleController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::get('/user', function (Request $request) {
     return $request->user();
 });
 
 // routes/api.php
 Route::post("user/gentoken/{email}",[UserController::class,"gentoken"]);
-Route::get('/login',function (Request $request) {
-    return response()->json('yep');
-})->name('login');
+// Route::get('/login',function (Request $request) {
+//     return response()->json('yep');
+// })->name('login');
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    // Your authenticated routes here
-    Route::get('/employees', [EmployeeController::class, 'index']);
-});
+// Route::middleware('auth.basic')->group(function () {
+// });
+
+Route::get('/employees', [EmployeeController::class, 'index']);
+
+
 Route::get('/tasks', [TaskController::class, 'index']);
 // Task routes
 
@@ -247,3 +251,11 @@ Route::get('user/{id}/tasks' , [RealationsController::class , 'userTasks']);
 
 
 Route::post('/tastks/settrue/{task_id}',[TaskController::class,"setValueTrue"]);
+
+
+
+Route::get('/login' ,[LoginController::class , 'login'])->name('login');
+
+Route::post('/bill' , [BillController::class , 'store']);
+Route::get('/clientBill/{id}', [BillController::class , 'clientBill'] );
+

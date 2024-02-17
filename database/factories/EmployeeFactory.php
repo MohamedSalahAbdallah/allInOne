@@ -44,7 +44,9 @@ class EmployeeFactory extends Factory
             'current_address' => $this->faker->address,
             'email' => $this->faker->unique()->safeEmail,
             'phone' => $this->faker->phoneNumber,
-            'password' => bcrypt('password'), // Default password, you may want to change this
+            // 'password' => bcrypt('password'),
+            // Default password, you may want to change this
+            'password' => Hash::make('password'),
             'facebook' => $this->faker->url,
             'linkedin' => $this->faker->url,
             'main_language' => $this->faker->languageCode,
