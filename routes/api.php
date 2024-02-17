@@ -14,6 +14,7 @@ use App\Http\Controllers\RealationsController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserRequestController;
 use App\Http\Controllers\VehicleController;
 
 /*
@@ -37,10 +38,7 @@ Route::get('/login',function (Request $request) {
     return response()->json('yep');
 })->name('login');
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    // Your authenticated routes here
-    Route::get('/employees', [EmployeeController::class, 'index']);
-});
+
 Route::get('/tasks', [TaskController::class, 'index']);
 // Task routes
 
@@ -89,7 +87,8 @@ Route::get('/task/{taskId}/group', [TaskController::class, 'getGroupByTask']); /
 // Employee routes
 
 // Get all Employees
-// Route::get('/employee', [EmployeeController::class, 'index']);
+Route::get('/employee', [EmployeeController::class, 'index']);
+// Route::get('/employe', [EmployeeController::class, 'index']);
 
 // Search Employees by name
 Route::get('/employee/search', [EmployeeController::class, 'searchByEmail']);
@@ -114,6 +113,8 @@ Route::post('/employee/login', [EmployeeController::class, 'login']);
 Route::post('/employee/register', [EmployeeController::class, 'register']);
 
 Route::post('/employee/whats',[EmployeeController::class,'whatsApp']);
+
+Route::get("employees/isonline",[EmployeeController::class,"isOnline"]);
 
 // group routes
 
@@ -248,4 +249,13 @@ Route::get('user/{id}/tasks' , [RealationsController::class , 'userTasks']);
 
 Route::post('/tasks/settrueatclint/{task_id}',[TaskController::class,"setValueTrue"]);
 Route::post('/tasks/settrueatsite/{task_id}',[TaskController::class,"setValueTrueatsite"]);
+
+Route::post('/tasks/gettasksbystatus/{status}',[TaskController::class,"getTasksByStatus"]);
+
+//UserRequest Routes
+Route::get('/userrequests',[UserRequestController::class,"index"]);
+Route::post('/userrequests',[UserRequestController::class,"store"]);
+Route::put('/userrequests/{id}',[UserRequestController::class,'update']);
+Route::delete('/userrequests/{id}',[UserRequestController::class,'destroy']);
+
 

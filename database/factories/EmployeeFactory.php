@@ -63,6 +63,8 @@ class EmployeeFactory extends Factory
             },
             'job_type' => $this->faker->word,
             'level' => $this->faker->numberBetween(1, 10),
+            'is_active' => $this->faker->boolean,
+            'is_online' => $this->faker->boolean,
 
             ];
     }

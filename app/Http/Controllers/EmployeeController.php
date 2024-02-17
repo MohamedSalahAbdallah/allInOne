@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\EmployeeSkill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -31,8 +32,8 @@ class EmployeeController extends Controller
  */
 public function index()
 {
-    $this->authorize('employee_index');
-    return Employee::all();
+
+    return Employee::with(['employee_skill','employee_training'])->get();
 }
 
 /**
@@ -62,7 +63,15 @@ public function searchByEmail(Request $request)
  */
 public function store(Request $request)
 {
-    return Employee::create($request->all());
+    $employee=Employee::where('id',$request->id)->get();
+    $skill=new EmployeeSkill;
+    $skill->employee_id=$request->id;
+    $skill->name=$request->name;
+    $skill->duration=$request->duration;
+    $skill->save();
+
+
+    return response()->json($employee);
 }
 
 /**
@@ -140,6 +149,7 @@ public function login(Request $request)
     $validator = Validator::make($request->all(), [
         'email' => 'required|email',
         'password' => 'required|min:8',
+        'name'=>'required_if:anotherfield,value'
     ]);
 
     if ($validator->fails()) {
@@ -172,7 +182,7 @@ public function register(Request $request){
         'type' => 'required|string|in:male,female',
         'religion' => 'required|string',
         'nationality' => 'required|string',
-        'photoPersonal' => 'required|string',
+        'photoPersonal' => 'required|image',
         'newCountry' => 'required|string',
         'newState' => 'required|string',
         'newAddress' => 'required|string',
@@ -295,7 +305,7 @@ public function register(Request $request){
     $save =$Employee->save();
     $token= $Employee->createToken($Employee->email)->plainTextToken;
     if ($save) {
-        return response()->json([$token,$Employee],200);
+        return response()->json([$token,$Employee,'success'],201);
     }else {
         return response()->json('failed',403);
     }
@@ -320,5 +330,11 @@ public function whatsApp(Request $request){
 
 print($message->sid);
 }
+
+    //get emplyees who is active
+    public function isOnline(Request $request){
+        $employee=Employee::where('is_online',true)->get();
+        return response()->json($employee,200);
+    }
 
 }

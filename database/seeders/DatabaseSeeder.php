@@ -7,6 +7,8 @@ namespace Database\Seeders;
 use App\Models\branch;
 use App\Models\Department;
 use App\Models\Employee;
+use App\Models\EmployeeSkill;
+use App\Models\EmployeeTraining;
 use Illuminate\Database\Seeder;
 
 use App\Models\Task;
@@ -17,6 +19,7 @@ use App\Models\sector;
 use App\Models\SubDepartment;
 use App\Models\supplier;
 use App\Models\User;
+use App\Models\UserRequest;
 use App\Models\vehicle;
 
 class DatabaseSeeder extends Seeder
@@ -40,5 +43,8 @@ class DatabaseSeeder extends Seeder
         order::factory()->count(10)->create();
         branch::factory()->count(10)->create();
         vehicle::factory()->count(10)->create();
+        UserRequest::factory()->count(10)->create();
+        EmployeeSkill::factory()->count(10)->create();
+        EmployeeTraining::factory()->count(10)->create();
     }
 }
