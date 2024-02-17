@@ -26,6 +26,10 @@ class Employee extends Authenticatable
         'criminal_case',
         'id_card_front',
         'id_card_back',
+        'passport',
+        'location',
+        'health',
+        'military_service',
         'country',
         'state',
         'address',
@@ -35,20 +39,17 @@ class Employee extends Authenticatable
         'email',
         'phone',
         'password',
-        'facebook',
-        'linkedin',
+        'social_media',
+        'social_link',
         'is_permanent',
         'main_language',
         'secondary_language',
-        'first_skill',
-        'first_skill_duration',
-        'training_name',
-        'training_duration',
-        'training_certificate',
+        //skils & training
         'experience',
         'manager_id',
         'job_id',
         'level',
+        'is_online',
     ];
 
     public function task()
@@ -66,5 +67,13 @@ class Employee extends Authenticatable
 
     public function job(){
         return $this->belongsTo(Job::class, 'job_id');
+    }
+
+    public function employee_skill() {
+        return $this->hasMany(EmployeeSkill::class);
+    }
+
+    public function employee_training() {
+        return $this->hasMany(EmployeeTraining::class);
     }
 }

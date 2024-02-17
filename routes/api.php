@@ -16,6 +16,7 @@ use App\Http\Controllers\RealationsController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserRequestController;
 use App\Http\Controllers\VehicleController;
 
 /*
@@ -39,12 +40,10 @@ Route::post("user/gentoken/{email}",[UserController::class,"gentoken"]);
 //     return response()->json('yep');
 // })->name('login');
 
-// Route::middleware('auth.basic')->group(function () {
-// });
-
-Route::get('/employees', [EmployeeController::class, 'index']);
-
-
+Route::middleware(['auth:sanctum'])->group(function () {
+    // Your authenticated routes here
+    Route::get('/employees', [EmployeeController::class, 'index']);
+});
 Route::get('/tasks', [TaskController::class, 'index']);
 // Task routes
 
@@ -93,7 +92,8 @@ Route::get('/task/{taskId}/group', [TaskController::class, 'getGroupByTask']); /
 // Employee routes
 
 // Get all Employees
-// Route::get('/employee', [EmployeeController::class, 'index']);
+Route::get('/employee', [EmployeeController::class, 'index']);
+// Route::get('/employe', [EmployeeController::class, 'index']);
 
 // Search Employees by name
 Route::get('/employee/search', [EmployeeController::class, 'searchByEmail']);
@@ -118,6 +118,8 @@ Route::post('/employee/login', [EmployeeController::class, 'login']);
 Route::post('/employee/register', [EmployeeController::class, 'register']);
 
 Route::post('/employee/whats',[EmployeeController::class,'whatsApp']);
+
+Route::get("employees/isonline",[EmployeeController::class,"isOnline"]);
 
 // group routes
 
@@ -251,11 +253,3 @@ Route::get('user/{id}/tasks' , [RealationsController::class , 'userTasks']);
 
 
 Route::post('/tastks/settrue/{task_id}',[TaskController::class,"setValueTrue"]);
-
-
-
-Route::get('/login' ,[LoginController::class , 'login'])->name('login');
-
-Route::post('/bill' , [BillController::class , 'store']);
-Route::get('/clientBill/{id}', [BillController::class , 'clientBill'] );
-

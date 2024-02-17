@@ -44,9 +44,7 @@ class EmployeeFactory extends Factory
             'current_address' => $this->faker->address,
             'email' => $this->faker->unique()->safeEmail,
             'phone' => $this->faker->phoneNumber,
-            // 'password' => bcrypt('password'),
-            // Default password, you may want to change this
-            'password' => Hash::make('password'),
+            'password' => bcrypt('password'), // Default password, you may want to change this
             'facebook' => $this->faker->url,
             'linkedin' => $this->faker->url,
             'main_language' => $this->faker->languageCode,
@@ -64,6 +62,8 @@ class EmployeeFactory extends Factory
             },
             'job_type' => $this->faker->word,
             'level' => $this->faker->numberBetween(1, 10),
+            'is_active' => $this->faker->boolean,
+            'is_online' => $this->faker->boolean,
 
             ];
     }

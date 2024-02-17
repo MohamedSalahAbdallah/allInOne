@@ -100,4 +100,19 @@ class TaskController extends Controller
         $task->arrived_at_client = true;
         $task->save();
     }
+
+    public function setValueTrueatsite(Request $request){
+        //update arrived at site value
+        $task = Task::findOrFail($request->task_id);
+        $task->arrived_at_site = true;
+        $task->save();
+    }
+
+    //get task by status
+    public function getTasksByStatus(Request $request){
+        $tasks = Task::with(['user','employee','department','subDepartment','order'])
+        ->where('status', $request->status)
+        ->get();
+        return response()->json($tasks);
+    }
 }
