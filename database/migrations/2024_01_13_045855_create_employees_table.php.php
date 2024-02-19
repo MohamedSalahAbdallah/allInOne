@@ -78,7 +78,55 @@ return new class extends Migration
             //Employee's secondary language
             $table->string('secondary_language')->nullable();
             //Employee's first skill
-
+            $table->string('first_skill')->nullable();
+            //Employee's first skill duration
+            $table->string('first_skill_duration')->nullable();
+            //Employee's second skill
+            $table->string('second_skill')->nullable();
+            //Employee's second skill duration
+            $table->string('second_skill_duration')->nullable();
+            //Employee's third skill
+            $table->string('third_skill')->nullable();
+            //Employee's third skill duration
+            $table->string('third_skill_duration')->nullable();
+            //Employee's fourth skill
+            $table->string('fourth_skill')->nullable();
+            //Employee's fourth skill duration
+            $table->string('fourth_skill_duration')->nullable();
+            //Employee's fifth skill
+            $table->string('fifth_skill')->nullable();
+            //Employee's fifth skill duration
+            $table->string('fifth_skill_duration')->nullable();
+            //Employee's first training name
+            $table->string('first_training_name')->nullable();
+            //Employee's first training duration
+            $table->string('first_training_duration')->nullable();
+            //Employee's first training certificate
+            $table->string('first_training_certificate')->nullable();
+            //Employee's second training name
+            $table->string('second_training_name')->nullable();
+            //Employee's second training duration
+            $table->string('second_training_duration')->nullable();
+            //Employee's second training certificate
+            $table->string('second_training_certificate')->nullable();
+            //Employee's third training name
+            $table->string('third_training_name')->nullable();
+            //Employee's third training duration
+            $table->string('third_training_duration')->nullable();
+            //Employee's third training certificate
+            $table->string('third_training_certificate')->nullable();
+            //Employee's fourth training name
+            $table->string('fourth_training_name')->nullable();
+            //Employee's fourth training duration
+            $table->string('fourth_training_duration')->nullable();
+            //Employee's fourth training certificate
+            $table->string('fourth_training_certificate')->nullable();
+            //Employee's fifth training name
+            $table->string('fifth_training_name')->nullable();
+            //Employee's fifth training duration
+            $table->string('fifth_training_duration')->nullable();
+            //Employee's fifth training certificate
+            $table->string('fifth_training_certificate')->nullable();
             //Employee's experience
             $table->text('experience')->nullable();
             //employees area of expertise
@@ -87,8 +135,6 @@ return new class extends Migration
             $table->string('experience_duration')->nullable();
             //Is employee active
             $table->boolean('is_active')->default(false);
-            //Is employee online
-            $table->boolean('is_online')->default(false);
             //Is employee perminant
             $table->boolean('is_permanent')->default(false);
             // Employee manager id

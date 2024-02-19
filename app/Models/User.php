@@ -50,10 +50,6 @@ class User extends Authenticatable
 
         return $this->hasMany(Task::class);
     }
-    public function bills(){
-
-        return $this->hasMany(Bill::class);
-    }
 
     public function userRequest(){
         $this->hasMany(UserRequest::class);

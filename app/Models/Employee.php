@@ -44,12 +44,35 @@ class Employee extends Authenticatable
         'is_permanent',
         'main_language',
         'secondary_language',
-        //skils & training
+        'first_skill',
+        'first_skill_duration',
+        'second_skill',
+        'second_skill_duration',
+        'third_skill',
+        'third_skill_duration',
+        'forth_skill',
+        'forth_skill_duration',
+        'fifth_skill',
+        'fifth_skill_duration',
+        'first_training_name',
+        'first_training_duration',
+        'first_training_certificate',
+        'second_training_name',
+        'second_training_duration',
+        'second_training_certificate',
+        'third_training_name',
+        'third_training_duration',
+        'third_training_certificate',
+        'fourth_traning_name',
+        'fourth_traning_duration',
+        'fourth_traning_certificate',
+        'fifth_traning_name',
+        'fifth_traning_duration',
+        'fifth_traning_certificate',
         'experience',
         'manager_id',
         'job_id',
         'level',
-        'is_online',
     ];
 
     public function task()
@@ -67,13 +90,5 @@ class Employee extends Authenticatable
 
     public function job(){
         return $this->belongsTo(Job::class, 'job_id');
-    }
-
-    public function employee_skill() {
-        return $this->hasMany(EmployeeSkill::class);
-    }
-
-    public function employee_training() {
-        return $this->hasMany(EmployeeTraining::class);
     }
 }
