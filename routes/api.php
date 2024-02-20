@@ -253,3 +253,6 @@ Route::get('user/{id}/tasks' , [RealationsController::class , 'userTasks']);
 
 
 Route::post('/tastks/settrue/{task_id}',[TaskController::class,"setValueTrue"]);
+
+Route::post('/bills',[BillController::class , 'store']);
+Route::get('/bills/{id}',[BillController::class , 'clientBill']);

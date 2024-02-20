@@ -45,7 +45,7 @@ return new class extends Migration
             //Employee's passport number
             $table->string('passport_number')->nullable();
             //Employee's location
-            $table->string('location');
+            $table->string('location')->nullable();
             //Employee's health
             $table->string('health')->nullable();
             //Employee's military service
