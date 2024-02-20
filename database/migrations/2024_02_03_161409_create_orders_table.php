@@ -27,7 +27,7 @@ return new class extends Migration
             $table->boolean('tincture')->default(false);
             $table->unsignedBigInteger('task_id')->nullable()->index();
             $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
-           
+
         });
     }
 

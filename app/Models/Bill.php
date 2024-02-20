@@ -9,7 +9,7 @@ class Bill extends Model
 {
     use HasFactory;
     protected $fillable = [
-        "order_id",
+        "task_id",
         "user_name",
         "user_id",
         "user_phone",
@@ -18,9 +18,9 @@ class Bill extends Model
         "city",
         "address",
     ];
-    public function order()
+    public function task()
     {
-        return $this->belongsTo(order::class);
+        return $this->belongsTo(Task::class);
     }
     public function user()
     {

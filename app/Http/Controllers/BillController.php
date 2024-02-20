@@ -22,9 +22,11 @@ class BillController extends Controller
      */
     public function store(Request $request)
     {
-        $bill = Bill::create($request->all());
+        $data = ['user_id'=>$request->user_id,'task_id'=>$request->task_id];
+        // return $data;
+        $bill = Bill::create($data);
         return Response::json(['data'=>$bill])
-        ->setStatusCode(200 , "Branch Created succefully") ;
+        ->setStatusCode(200 , "Bill Created succefully") ;
     }
 
     /**
@@ -52,16 +54,24 @@ class BillController extends Controller
     }
     public function clientBill($id)
     {
+
         $bill = Bill::findOrFail($id);
-        // return $bill->order;
+        $locale =$bill->user->lang;
+        app()->setLocale($locale);
+        // $message = trans('messages.welcome');
+        // return response()->json(['message' => $message]);
+        // return $bill->task;
+
         return Response::json([
-            'Order_Number'=>$bill->id,
+            'Bill_Number'=>$bill->id,
             'Date'=>Carbon::parse($bill->created_at)->toDateString(),
             'Time'=>Carbon::parse($bill->created_at)->toTimeString(),
             'User_Id'=>$bill->user_id,
             'User_phone'=>$bill->user->phone,
-            'City'=>$bill->user->location,
-            'Address'=>$bill->user->address
+            'City'=> trans($bill->user->location),
+            'Address'=> trans($bill->user->address),
+            'Location'=>trans($bill->task->location),
+            'Description'=>trans($bill->task->description),
         ]);
     }
 }
