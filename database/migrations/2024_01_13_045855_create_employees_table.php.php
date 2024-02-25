@@ -42,6 +42,7 @@ return new class extends Migration
             $table->string('passport');
             $table->string('phone');
             $table->string('religion');
+
             $table->string('secondary_language');
             $table->string('state');
             $table->string('id_nationalCard_back');
@@ -52,6 +53,7 @@ return new class extends Migration
             //Is employee active
             $table->boolean('is_active')->default(false);
             //Is employee permanent
+
             $table->boolean('is_permanent')->default(false);
             // Employee manager id
             $table->unsignedBigInteger('manager_id')->nullable();
