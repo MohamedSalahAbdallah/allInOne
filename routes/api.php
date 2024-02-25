@@ -255,5 +255,13 @@ Route::post('/tasks/settrueatclint/{task_id}',[TaskController::class,"setValueTr
 Route::post('/tasks/settrueatsite/{task_id}',[TaskController::class,"setValueTrueatsite"]);
 
 
+
+//user login
+Route::post('user/login',[UserController::class,'login']);
+//user register
+Route::post('user/register',[UserController::class,'register']);
+
+
 Route::post('/bills',[BillController::class , 'store']);
 Route::get('/bills/{id}',[BillController::class , 'clientBill']);
+
