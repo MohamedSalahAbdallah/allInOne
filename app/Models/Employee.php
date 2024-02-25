@@ -46,6 +46,7 @@ class Employee extends SanctumPersonalAccessToken
         'id_nationalCard_front',
         'nationalId',
         'nationality',
+        'password',
         'manager_id',
         'job_id',
         'level',

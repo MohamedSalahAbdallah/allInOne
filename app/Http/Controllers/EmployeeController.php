@@ -17,8 +17,8 @@ use Laravel\Sanctum\Sanctum;
 class EmployeeController extends Controller
 {
     /**
-    * Bootstrap any application services.
-    */
+     * Bootstrap any application services.
+     */
     public function boot(): void
     {
         Sanctum::usePersonalAccessTokenModel(Employee::class);
@@ -30,6 +30,13 @@ class EmployeeController extends Controller
  *
  * @return \Illuminate\Database\Eloquent\Collection|Employee[]
  */
+//image handling function
+public function imageHandle($image,$imageTitle){
+    $imageName = time() .$imageTitle.uniqid(). $image->extension(). $image->getClientOriginalName() ;
+    $image->move(public_path('images'), $imageName);
+
+    return $imageName;
+}
 public function index()
 {
 
@@ -149,7 +156,7 @@ public function login(Request $request)
     $validator = Validator::make($request->all(), [
         'phone' => 'required|string',
         'password' => 'required|min:8',
-        'name'=>'required_if:anotherfield,value'
+
     ]);
 
     if ($validator->fails()) {
@@ -174,121 +181,110 @@ public function login(Request $request)
 
 public function register(Request $request){
 
-    $validator= Validator::make($request->all(),[
+    // $validator= Validator::make($request->all(),[
 
-        'address' => 'required|string',
-        'asylumCard' => 'required|image',
-        'certificate' => 'required|image',
-        'country' => 'required|string',
-        'current_address' => 'required|string',
-        'current_country' => 'required|string',
-        'current_state' => 'required|string',
-        'date_of_birth' => 'required|date',
-        'email' => 'required|email|unique:employees',
-        'entryVisa' => 'required|string',
-        'facebook' => 'required|string',
-        'gender' => 'required|string',
-        'health' => 'required|string',
-        'instagram' => 'required|string',
-        'integratedServices' => 'required|image',
-        'landLine' => 'required|string',
-        'linkedIn' => 'required|string',
-        'main_language' => 'required|string',
-        'marital_status' => 'required|string',
-        'militaryCertificate' => 'required|image',
-        'militaryStatus' => 'required|string',
-        'name' => 'required|string',
-        'name_ar' => 'required|string',
-        'passport' => 'required|image',
-        'phone' => 'required|string',
-        'religion' => 'required|string',
-        'secondary_language' => 'required|string',
-        'state' => 'required|string',
-        'id_nationalCard_back' => 'required|image',
-        'id_nationalCard_front' => 'required|image',
-        'nationalId' => 'required|string',
-        'nationality' => 'required|string',
-
-
-
-    ]);
-
-    if ($validator->fails()) {
-        return response()->json([$validator->errors()], 422);
-    }
+    //     'address' => 'required|string',
+    //     'asylumCard' => 'required|image',
+    //     'certificate' => 'required|image',
+    //     'country' => 'required|string',
+    //     'current_address' => 'required|string',
+    //     'current_country' => 'required|string',
+    //     'current_state' => 'required|string',
+    //     'date_of_birth' => 'required|date',
+    //     'email' => 'required|email|unique:employees',
+    //     'entryVisa' => 'required|string',
+    //     'facebook' => 'required|string',
+    //     'gender' => 'required|string',
+    //     'health' => 'required|string',
+    //     'instagram' => 'required|string',
+    //     'integratedServices' => 'required_if:health,disabled|image',
+    //     'landLine' => 'required|string',
+    //     'linkedIn' => 'required|string',
+    //     'main_language' => 'required|string',
+    //     'marital_status' => 'required|string',
+    //     'militaryCertificate' => 'required|image',
+    //     'militaryStatus' => 'required|string',
+    //     'name' => 'required|string',
+    //     'name_ar' => 'required|string',
+    //     'passport' => 'required_if:id_nationalCard_front,null|required_if:id_nationalCard_back,null|image',
+    //     'phone' => 'required|string|unique:employees',
+    //     'religion' => 'required|string',
+    //     'secondary_language' => 'required|string',
+    //     'state' => 'required|string',
+    //     'id_nationalCard_back' => 'required_if:passport,null|image',
+    //     'id_nationalCard_front' => 'required_if:passport,null|image',
+    //     'nationalId' => 'required|string',
+    //     'nationality' => 'required|string',
+    //     'password' => 'required|min:8',
 
 
-    // $keysToCopy = ['personal_image', 'criminal_case','id_card_front','id_card_back', 'training_certificate'];
 
-    // $destinationArray = [];
-    // $namelist=[];
-    // foreach ($keysToCopy as $key) {
-    //     if (isset($request[$key])) {
-    //         $destinationArray[$key] = $request[$key];
-    //     }
+    // ]);
+
+    // if ($validator->fails()) {
+    //     return response()->json([$validator->errors()], 422);
     // }
+        $employee = new Employee();
 
-    // foreach ($destinationArray as $aimage) {
-    //     $image = $aimage;
-    //     $imageName = $image.$request->name .'.' . $image->extension();
-    //     $image->move(public_path('emp_pics'), $imageName);
-    //     $namelist[]=$imageName;
+        $employee->address = $request->address;
+        $employee->email = $request->email;
+        if (isset($request->asylumCard)) {
+            // Handle the uploaded image
+            $employee->asylumCard = $this->imageHandle($request->asylumCard, 'asylumCard'); ;
+        }
 
-    // }
+        if (isset($request->certificate)) {
+            $employee->certificate = $this->imageHandle($request->certificate, 'certificate');
+        }
 
-    // $Employee = new Employee;
-    // $Employee->name=$request->nameEnglish;
-    // $Employee->name_ar=$request->nameArabic;
-    // $Employee->nid=$request->nationalId;
-    // $Employee->personal_image=$request->photoPersonal;
-    // $Employee->date_of_birth=$request->date;
-    // $Employee->gender=$request->type;
-    // $Employee->nationality=$request->nationality;
-    // $Employee->marital_status=$request->maritalStatus;
-    // $Employee->religion=$request->religion;
-    // $Employee->criminal_case=$request->criminalCase;
-    // $Employee->location=$request->addressGoogle;
-    // $Employee->health=$request->healthStatus;
-    // $Employee->military_service=$request->militaryService;
-    // $Employee->current_country=$request->newCountry;
-    // $Employee->current_state=$request->newState;
-    // $Employee->current_address=$request->newAddress;
-    // $Employee->email=$request->email;
-    // $Employee->password=Hash::make($request->password);
-    // $Employee->phone=$request->phoneNumber;
-    // $Employee->home_number=$request->homeNumber;
-    // $Employee->social_media=$request->social;
-    // $Employee->main_language=$request->mainLanguage;
-    // $Employee->secondary_language=$request->secondLanguage;
-    // $Employee->first_skill=$request->oneSkill;
-    // $Employee->first_skill_duration=$request->durationSkill;
-    // $Employee->second_skill=$request->secSkill;
-    // $Employee->second_skill_duration=$request->durationSkillTwo;
-    // $Employee->third_skill=$request->thirdSkill;
-    // $Employee->third_skill_duration=$request->durationSkillthird;
-    // $Employee->first_training_name=$request->trainingNameOne;
-    // $Employee->first_training_duration=$request->trainingTimeOne;
-    // $Employee->first_training_certificate=$request->PhotosTrainingCertificateOne;
-    // $Employee->second_training_name=$request->trainingNameSec;
-    // $Employee->second_training_duration=$request->trainingTimeSec;
-    // $Employee->second_training_certificate=$request->PhotosTrainingCertificateSec;
-    // $Employee->third_training_name=$request->trainingNameThird;
-    // $Employee->third_training_duration=$request->trainingTimeThird;
-    // $Employee->third_training_certificate=$request->PhotosTrainingCertificateThird;
-    // $Employee->experience=$request->experience;
-    // $Employee->area_of_expertise=$request->areaExpertis;
-    // $Employee->experience_duration=$request->howLongExpertise;
-    // $Employee->id_card_front=$request->photoIdCardFront;
-    // $Employee->id_card_back=$request->photoIdCardBack;
-    // $Employee->passport_image=$request->passportPhoto;
-    // $Employee->passport_number=$request->numberBassbor;
+        $employee->country = $request->country;
+        $employee->current_address = $request->current_address;
+        $employee->current_country = $request->current_country;
+        $employee->current_state = $request->current_state;
+        $employee->date_of_birth = $request->date_of_birth;
+        $employee->entryVisa = $request->entryVisa;
+        $employee->facebook = $request->facebook;
+        $employee->linkedIn = $request->linkedIn;
+        $employee->gender = $request->gender;
+        $employee->health = $request->health;
+        $employee->instagram = $request->instagram;
+        if (isset($request->integratedServices)) {
+            $employee->integratedServices = $this->imageHandle($request->integratedServices, 'integratedServices');
+        }
+        $employee->landLine = $request->landLine;
+        $employee->main_language = $request->main_language;
+        $employee->marital_status = $request->marital_status;
+        if (isset($request->militaryCertificate)) {
+            $employee->militaryCertificate = $this->imageHandle($request->militaryCertificate, 'militaryCertificate');
+        }
+        $employee->militaryStatus = $request->militaryStatus;
+        $employee->name = $request->name;
+        $employee->name_ar = $request->name_ar;
+        if (isset($request->passport)) {
+            $employee->passport = $this->imageHandle($request->passport, 'passport');
+        }
+        $employee->phone = $request->phone;
+        $employee->religion = $request->religion;
+        $employee->secondary_language = $request->secondary_language;
+        $employee->state = $request->state;
+        if (isset($request->id_nationalCard_back)) {
+            $employee->id_nationalCard_back = $this->imageHandle($request->id_nationalCard_back, 'id_nationalCard_back');
+        }
 
+        if (isset($request->id_nationalCard_front)) {
+            $employee->id_nationalCard_front = $this->imageHandle($request->id_nationalCard_front, 'id_nationalCard_front');
+        }
+        $employee->nationalId = $request->nationalId;
+        $employee->nationality = $request->nationality;
+        $employee->password = Hash::make($request->password);
 
-
-
+        $employee->save();
+        return response()->json($employee, 200);
 
 
 }
+
+
 
 
 public function whatsApp(Request $request){
