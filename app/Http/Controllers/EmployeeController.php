@@ -28,8 +28,8 @@ class EmployeeController extends Controller
         Sanctum::usePersonalAccessTokenModel(Employee::class);
     }
 
-    * Bootstrap any application services.
-    */
+    // * Bootstrap any application services.
+    // */
 
     // public function boot(): void
     // {
@@ -220,7 +220,6 @@ public function register(Request $request){
         'nationalId' => 'required_if:nationality,egyptian|string',
         'nationality' => 'required|string',
         'password' => 'required|min:8',
-        'criminalRecord' => 'required|image',
 
 
 
