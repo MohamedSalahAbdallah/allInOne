@@ -28,8 +28,8 @@ class EmployeeController extends Controller
         Sanctum::usePersonalAccessTokenModel(Employee::class);
     }
 
-    * Bootstrap any application services.
-    */
+    // * Bootstrap any application services.
+    // */
 
     // public function boot(): void
     // {
@@ -188,7 +188,7 @@ public function register(Request $request){
     $validator= Validator::make($request->all(),[
 
         'address' => 'required|string',
-        'asylumCard' => 'required|image',
+        'asylumCard' => 'required_if:entryVisa,refugee|image',
         'certificate' => 'required|image',
         'country' => 'required|string',
         'current_address' => 'required|string',
@@ -206,8 +206,8 @@ public function register(Request $request){
         'linkedIn' => 'required|string',
         'main_language' => 'required|string',
         'marital_status' => 'required|string',
-        'militaryCertificate' => 'required|image',
-        'militaryStatus' => 'required|string',
+        'militaryCertificate' => 'required_if:militaryStatus,complete|image',
+        'militaryStatus' => 'required_if:gender,male|string',
         'name' => 'required|string',
         'name_ar' => 'required|string',
         'passport' => 'required_if:id_nationalCard_front,null|required_if:id_nationalCard_back,null|image',
@@ -217,10 +217,9 @@ public function register(Request $request){
         'state' => 'required|string',
         'id_nationalCard_back' => 'required_if:passport,null|image',
         'id_nationalCard_front' => 'required_if:passport,null|image',
-        'nationalId' => 'required|string',
+        'nationalId' => 'required_if:nationality,egyptian|string',
         'nationality' => 'required|string',
         'password' => 'required|min:8',
-        
 
 
 
@@ -278,6 +277,9 @@ public function register(Request $request){
 
         if (isset($request->id_nationalCard_front)) {
             $employee->id_nationalCard_front = $this->imageHandle($request->id_nationalCard_front, 'id_nationalCard_front');
+        }
+        if (isset($request->criminalRecord)) {
+            $employee->criminalRecord = $this->imageHandle($request->criminalRecord, 'criminalRecord');
         }
         $employee->nationalId = $request->nationalId;
         $employee->nationality = $request->nationality;

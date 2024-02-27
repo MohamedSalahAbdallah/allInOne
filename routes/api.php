@@ -263,5 +263,10 @@ Route::post('user/register',[UserController::class,'register']);
 
 
 Route::post('/bills',[BillController::class , 'store']);
+
 Route::get('/bills/{id}',[BillController::class , 'clientBill']);
+
+
+Route::get('/bills/client/{id}',[BillController::class , 'clientBill']);
+Route::get('/bills/laundry/{id}',[BillController::class , 'laundryBill']);
 

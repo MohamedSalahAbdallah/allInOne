@@ -56,11 +56,13 @@ class BillController extends Controller
     {
 
         $bill = Bill::findOrFail($id);
-        $locale =$bill->user->lang;
+        $locale = $bill->user->lang;
         app()->setLocale($locale);
-        // $message = trans('messages.welcome');
-        // return response()->json(['message' => $message]);
-        // return $bill->task;
+        $employeeName = $bill->task->employee->name;
+        $employeeNumber = $bill->task->employee->phone;
+        $order = $bill->task->orders;
+        $taskNumber = $bill->task->id;
+        // return $order;
 
         return Response::json([
             'Bill_Number'=>$bill->id,
@@ -72,6 +74,26 @@ class BillController extends Controller
             'Address'=> trans($bill->user->address),
             'Location'=>trans($bill->task->location),
             'Description'=>trans($bill->task->description),
+            'Employee_Name'=>$employeeName,
+            'Employee_Number'=>$employeeNumber,
+            'Order'=>$order,
+            'Task_Number'=>$taskNumber
         ]);
+    }
+    public function laundryBill($id)
+    {
+
+        $bill = Bill::findOrFail($id);
+        return Response::json([
+            'Bill_Number'=>$bill->id,
+            'Task_Number'=>$bill->task->id,
+            'User_Name'=>$bill->user->name,
+            'Order'=>$bill->task->orders,
+            'Employee_Number'=>$bill->task->employee->phone,
+            'Employee_Name'=>$bill->task->employee->name,
+
+
+        ]);
+
     }
 }
