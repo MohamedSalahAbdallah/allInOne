@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
-use App\Models\EmployeeSkill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -21,8 +20,16 @@ class EmployeeController extends Controller
         $this->middleware('auth:api');
     }
     /**
-    * Bootstrap any application services.
-    */
+
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        Sanctum::usePersonalAccessTokenModel(Employee::class);
+    }
+
+    // * Bootstrap any application services.
+    // */
 
     // public function boot(): void
     // {
@@ -35,6 +42,13 @@ class EmployeeController extends Controller
  *
  * @return \Illuminate\Database\Eloquent\Collection|Employee[]
  */
+//image handling function
+public function imageHandle($image,$imageTitle){
+    $imageName = time() .$imageTitle.uniqid(). $image->extension(). $image->getClientOriginalName() ;
+    $image->move(public_path('images'), $imageName);
+
+    return $imageName;
+}
 public function index()
 {
     $this->authorize('employee_index');
@@ -68,15 +82,7 @@ public function searchByEmail(Request $request)
  */
 public function store(Request $request)
 {
-    $employee=Employee::where('id',$request->id)->get();
-    $skill=new EmployeeSkill;
-    $skill->employee_id=$request->id;
-    $skill->name=$request->name;
-    $skill->duration=$request->duration;
-    $skill->save();
-
-
-    return response()->json($employee);
+    return Employee::create($request->all());
 }
 
 /**
@@ -152,9 +158,9 @@ public function getTasksByEmployee(Employee $employee)
 public function login(Request $request)
 {
     $validator = Validator::make($request->all(), [
-        'email' => 'required|email',
+        'phone' => 'required|string',
         'password' => 'required|min:8',
-        'name'=>'required_if:anotherfield,value'
+
     ]);
 
     if ($validator->fails()) {
@@ -162,7 +168,7 @@ public function login(Request $request)
         return response()->json($validator->errors(), 400);
     }
 
-    $employee = Employee::where('email', $request->email)
+    $employee = Employee::where('phone', $request->phone)
                     ->first();
 
 
@@ -181,53 +187,39 @@ public function register(Request $request){
 
     $validator= Validator::make($request->all(),[
 
-        'nameArabic' => 'required|string',
-        'nameEnglish' => 'required|string',
-        'date' => 'required|date',
-        'type' => 'required|string|in:male,female',
-        'religion' => 'required|string',
-        'nationality' => 'required|string',
-        'photoPersonal' => 'required|image',
-        'newCountry' => 'required|string',
-        'newState' => 'required|string',
-        'newAddress' => 'required|string',
-        'addressGoogle' => 'required|string',
-        'phoneNumber' => 'required|string',
-        'homeNumber' => 'nullable|string',
+        'address' => 'required|string',
+        'asylumCard' => 'required_if:entryVisa,refugee|image',
+        'certificate' => 'required|image',
+        'country' => 'required|string',
+        'current_address' => 'required|string',
+        'current_country' => 'required|string',
+        'current_state' => 'required|string',
+        'date_of_birth' => 'required|date',
         'email' => 'required|email|unique:employees',
-        'password' => 'required|string|min:8',
-        'social' => 'nullable|string',
-        'mainLanguage' => 'nullable|string',
-        'secondLanguage' => 'nullable|string',
-        'oneSkill' => 'nullable|string',
-        'durationSkill' => 'nullable|string',
-        'secSkill' => 'nullable|string',
-        'durationSkillTwo' => 'nullable|string',
-        'thirdSkill' => 'nullable|string',
-        'durationSkillthird' => 'nullable|string',
-        'photoCertificates' => 'nullable|string',
-        'trainingNameOne' => 'nullable|string',
-        'trainingTimeOne' => 'nullable|string',
-        'PhotosTrainingCertificateOne' => 'nullable|string',
-        'trainingNameSec' => 'nullable|string',
-        'trainingTimeSec' => 'nullable|string',
-        'PhotosTrainingCertificateSec' => 'nullable|string',
-        'trainingNameThird' => 'nullable|string',
-        'trainingTimeThird' => 'nullable|string',
-        'PhotosTrainingCertificateThird' => 'nullable|string',
-        'experience' => 'nullable|string',
-        'areaExpertis' => 'nullable|string',
-        'howLongExpertise' => 'nullable|string',
-        'maritalStatus' => 'nullable|string',
-        'healthStatus' => 'nullable|string',
-        'nationalId' => 'nullable|string',
-        'criminalCase' => 'nullable|string',
-        'militaryService' => 'nullable|string',
-        'areaExpertise' => 'nullable|string',
-        'photoIdCardFront'=>'nullable|string',
-        'photoIdCardBack'=>'nullable|string',
-        'passportPhoto'=>'nullable|string',
-        'numberBassbor'=>'nullable|string',
+        'entryVisa' => 'required|string',
+        'facebook' => 'required|string',
+        'gender' => 'required|string',
+        'health' => 'required|string',
+        'instagram' => 'required|string',
+        'integratedServices' => 'required_if:health,disabled|image',
+        'landLine' => 'required|string',
+        'linkedIn' => 'required|string',
+        'main_language' => 'required|string',
+        'marital_status' => 'required|string',
+        'militaryCertificate' => 'required_if:militaryStatus,complete|image',
+        'militaryStatus' => 'required_if:gender,male|string',
+        'name' => 'required|string',
+        'name_ar' => 'required|string',
+        'passport' => 'required_if:id_nationalCard_front,null|required_if:id_nationalCard_back,null|image',
+        'phone' => 'required|string|unique:employees',
+        'religion' => 'required|string',
+        'secondary_language' => 'required|string',
+        'state' => 'required|string',
+        'id_nationalCard_back' => 'required_if:passport,null|image',
+        'id_nationalCard_front' => 'required_if:passport,null|image',
+        'nationalId' => 'required_if:nationality,egyptian|string',
+        'nationality' => 'required|string',
+        'password' => 'required|min:8',
 
 
 
@@ -236,6 +228,66 @@ public function register(Request $request){
     if ($validator->fails()) {
         return response()->json([$validator->errors()], 422);
     }
+        $employee = new Employee();
+
+        $employee->address = $request->address;
+        $employee->email = $request->email;
+        if (isset($request->asylumCard)) {
+            // Handle the uploaded image
+            $employee->asylumCard = $this->imageHandle($request->asylumCard, 'asylumCard'); ;
+        }
+
+        if (isset($request->certificate)) {
+            $employee->certificate = $this->imageHandle($request->certificate, 'certificate');
+        }
+
+        $employee->country = $request->country;
+        $employee->current_address = $request->current_address;
+        $employee->current_country = $request->current_country;
+        $employee->current_state = $request->current_state;
+        $employee->date_of_birth = $request->date_of_birth;
+        $employee->entryVisa = $request->entryVisa;
+        $employee->facebook = $request->facebook;
+        $employee->linkedIn = $request->linkedIn;
+        $employee->gender = $request->gender;
+        $employee->health = $request->health;
+        $employee->instagram = $request->instagram;
+        if (isset($request->integratedServices)) {
+            $employee->integratedServices = $this->imageHandle($request->integratedServices, 'integratedServices');
+        }
+        $employee->landLine = $request->landLine;
+        $employee->main_language = $request->main_language;
+        $employee->marital_status = $request->marital_status;
+        if (isset($request->militaryCertificate)) {
+            $employee->militaryCertificate = $this->imageHandle($request->militaryCertificate, 'militaryCertificate');
+        }
+        $employee->militaryStatus = $request->militaryStatus;
+        $employee->name = $request->name;
+        $employee->name_ar = $request->name_ar;
+        if (isset($request->passport)) {
+            $employee->passport = $this->imageHandle($request->passport, 'passport');
+        }
+        $employee->phone = $request->phone;
+        $employee->religion = $request->religion;
+        $employee->secondary_language = $request->secondary_language;
+        $employee->state = $request->state;
+        if (isset($request->id_nationalCard_back)) {
+            $employee->id_nationalCard_back = $this->imageHandle($request->id_nationalCard_back, 'id_nationalCard_back');
+        }
+
+        if (isset($request->id_nationalCard_front)) {
+            $employee->id_nationalCard_front = $this->imageHandle($request->id_nationalCard_front, 'id_nationalCard_front');
+        }
+        if (isset($request->criminalRecord)) {
+            $employee->criminalRecord = $this->imageHandle($request->criminalRecord, 'criminalRecord');
+        }
+        $employee->nationalId = $request->nationalId;
+        $employee->nationality = $request->nationality;
+        $employee->password = Hash::make($request->password);
+
+        $employee->save();
+        return response()->json($employee, 200);
+
 
 
     // $keysToCopy = ['personal_image', 'criminal_case','id_card_front','id_card_back', 'training_certificate'];
@@ -256,65 +308,9 @@ public function register(Request $request){
 
     // }
 
-    $Employee = new Employee;
-    $Employee->name=$request->nameEnglish;
-    $Employee->name_ar=$request->nameArabic;
-    $Employee->nid=$request->nationalId;
-    $Employee->personal_image=$request->photoPersonal;
-    $Employee->date_of_birth=$request->date;
-    $Employee->gender=$request->type;
-    $Employee->nationality=$request->nationality;
-    $Employee->marital_status=$request->maritalStatus;
-    $Employee->religion=$request->religion;
-    $Employee->criminal_case=$request->criminalCase;
-    $Employee->location=$request->addressGoogle;
-    $Employee->health=$request->healthStatus;
-    $Employee->military_service=$request->militaryService;
-    $Employee->current_country=$request->newCountry;
-    $Employee->current_state=$request->newState;
-    $Employee->current_address=$request->newAddress;
-    $Employee->email=$request->email;
-    $Employee->password=Hash::make($request->password);
-    $Employee->phone=$request->phoneNumber;
-    $Employee->home_number=$request->homeNumber;
-    $Employee->social_media=$request->social;
-    $Employee->main_language=$request->mainLanguage;
-    $Employee->secondary_language=$request->secondLanguage;
-    $Employee->first_skill=$request->oneSkill;
-    $Employee->first_skill_duration=$request->durationSkill;
-    $Employee->second_skill=$request->secSkill;
-    $Employee->second_skill_duration=$request->durationSkillTwo;
-    $Employee->third_skill=$request->thirdSkill;
-    $Employee->third_skill_duration=$request->durationSkillthird;
-    $Employee->first_training_name=$request->trainingNameOne;
-    $Employee->first_training_duration=$request->trainingTimeOne;
-    $Employee->first_training_certificate=$request->PhotosTrainingCertificateOne;
-    $Employee->second_training_name=$request->trainingNameSec;
-    $Employee->second_training_duration=$request->trainingTimeSec;
-    $Employee->second_training_certificate=$request->PhotosTrainingCertificateSec;
-    $Employee->third_training_name=$request->trainingNameThird;
-    $Employee->third_training_duration=$request->trainingTimeThird;
-    $Employee->third_training_certificate=$request->PhotosTrainingCertificateThird;
-    $Employee->experience=$request->experience;
-    $Employee->area_of_expertise=$request->areaExpertis;
-    $Employee->experience_duration=$request->howLongExpertise;
-    $Employee->id_card_front=$request->photoIdCardFront;
-    $Employee->id_card_back=$request->photoIdCardBack;
-    $Employee->passport_image=$request->passportPhoto;
-    $Employee->passport_number=$request->numberBassbor;
-
-
-
-
-
-    $save =$Employee->save();
-    $token= $Employee->createToken($Employee->email)->plainTextToken;
-    if ($save) {
-        return response()->json([$token,$Employee,'success'],201);
-    }else {
-        return response()->json('failed',403);
-    }
 }
+
+
 
 
 public function whatsApp(Request $request){
@@ -335,11 +331,5 @@ public function whatsApp(Request $request){
 
 print($message->sid);
 }
-
-    //get emplyees who is active
-    public function isOnline(Request $request){
-        $employee=Employee::where('is_online',true)->get();
-        return response()->json($employee,200);
-    }
 
 }

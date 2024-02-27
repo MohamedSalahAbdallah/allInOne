@@ -107,12 +107,4 @@ class TaskController extends Controller
         $task->arrived_at_site = true;
         $task->save();
     }
-
-    //get task by status
-    public function getTasksByStatus(Request $request){
-        $tasks = Task::with(['user','employee','department','subDepartment','order'])
-        ->where('status', $request->status)
-        ->get();
-        return response()->json($tasks);
-    }
 }

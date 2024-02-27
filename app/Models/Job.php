@@ -10,10 +10,13 @@ class Job extends Model
     use HasFactory;
 
     protected $fillable=[
+        "job_code",
         "name",
         "description",
         "sub_department_id",
-        "department_id"
+        "department_id",
+        "status",
+
 
     ];
 

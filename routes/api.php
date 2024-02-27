@@ -16,7 +16,6 @@ use App\Http\Controllers\RealationsController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserRequestController;
 use App\Http\Controllers\VehicleController;
 
 /*
@@ -41,6 +40,9 @@ Route::post("user/gentoken/{email}",[UserController::class,"gentoken"]);
 // })->name('login');
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    // Your authenticated routes here
+    Route::get('/employees', [EmployeeController::class, 'index']);
+});Route::middleware(['auth:sanctum'])->group(function () {
     // Your authenticated routes here
     Route::get('/employees', [EmployeeController::class, 'index']);
 });
@@ -92,8 +94,7 @@ Route::get('/task/{taskId}/group', [TaskController::class, 'getGroupByTask']); /
 // Employee routes
 
 // Get all Employees
-Route::get('/employee', [EmployeeController::class, 'index']);
-// Route::get('/employe', [EmployeeController::class, 'index']);
+// Route::get('/employee', [EmployeeController::class, 'index']);
 
 // Search Employees by name
 Route::get('/employee/search', [EmployeeController::class, 'searchByEmail']);
@@ -118,8 +119,6 @@ Route::post('/employee/login', [EmployeeController::class, 'login']);
 Route::post('/employee/register', [EmployeeController::class, 'register']);
 
 Route::post('/employee/whats',[EmployeeController::class,'whatsApp']);
-
-Route::get("employees/isonline",[EmployeeController::class,"isOnline"]);
 
 // group routes
 
@@ -252,8 +251,22 @@ Route::get('user/{id}/tasks' , [RealationsController::class , 'userTasks']);
 
 
 
-Route::post('/tastks/settrue/{task_id}',[TaskController::class,"setValueTrue"]);
+Route::post('/tasks/settrueatclint/{task_id}',[TaskController::class,"setValueTrue"]);
+Route::post('/tasks/settrueatsite/{task_id}',[TaskController::class,"setValueTrueatsite"]);
+
+
+
+//user login
+Route::post('user/login',[UserController::class,'login']);
+//user register
+Route::post('user/register',[UserController::class,'register']);
+
 
 Route::post('/bills',[BillController::class , 'store']);
+
+Route::get('/bills/{id}',[BillController::class , 'clientBill']);
+
+
 Route::get('/bills/client/{id}',[BillController::class , 'clientBill']);
 Route::get('/bills/laundry/{id}',[BillController::class , 'laundryBill']);
+

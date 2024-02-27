@@ -19,11 +19,14 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'name_ar',
         'email',
         'password',
         'phone',
-        'address',
         'location',
+        'current_address',
+        'current_country',
+        'current_state',
     ];
 
     /**
@@ -49,10 +52,6 @@ class User extends Authenticatable
     public function tasks(){
 
         return $this->hasMany(Task::class);
-    }
-    public function bills(){
-
-        return $this->hasMany(Bill::class);
     }
 
     public function userRequest(){

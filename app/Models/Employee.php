@@ -14,42 +14,42 @@ class Employee extends Authenticatable
     use HasFactory,HasApiTokens;
 
     protected $fillable = [
-        'name',
-        'name_ar',
-        'nid',
-        'personal_image',
-        'date_of_birth',
-        'gender',
-        'nationality',
-        'marital_status',
-        'religion',
-        'criminal_case',
-        'id_card_front',
-        'id_card_back',
-        'passport',
-        'location',
-        'health',
-        'military_service',
-        'country',
-        'state',
         'address',
+        'asylumCard',
+        'certificate',
+        'country',
+        'current_address',
         'current_country',
         'current_state',
-        'current_address',
+        'date_of_birth',
         'email',
-        'phone',
-        'password',
-        'social_media',
-        'social_link',
-        'is_permanent',
+        'entryVisa',
+        'facebook',
+        'gender',
+        'health',
+        'instagram',
+        'integratedServices',
+        'landLine',
+        'linkedIn',
         'main_language',
+        'marital_status',
+        'militaryCertificate',
+        'militaryStatus',
+        'name',
+        'name_ar',
+        'passport',
+        'phone',
+        'religion',
         'secondary_language',
-        //skils & training
-        'experience',
+        'state',
+        'id_nationalCard_back',
+        'id_nationalCard_front',
+        'nationalId',
+        'nationality',
+        'password',
         'manager_id',
         'job_id',
         'level',
-        'is_online',
     ];
 
     public function task()
@@ -67,13 +67,5 @@ class Employee extends Authenticatable
 
     public function job(){
         return $this->belongsTo(Job::class, 'job_id');
-    }
-
-    public function employee_skill() {
-        return $this->hasMany(EmployeeSkill::class);
-    }
-
-    public function employee_training() {
-        return $this->hasMany(EmployeeTraining::class);
     }
 }
