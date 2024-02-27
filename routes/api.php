@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BillController;
 use App\Http\Controllers\BranchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -9,12 +10,12 @@ use App\Http\Controllers\TaskEmployeeController;
 use App\Http\Controllers\GroupEmployeeController;
 use App\Http\Controllers\groupController;
 use App\Http\Controllers\groupTaskController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RealationsController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserRequestController;
 use App\Http\Controllers\VehicleController;
 
 /*
@@ -28,17 +29,23 @@ use App\Http\Controllers\VehicleController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::get('/user', function (Request $request) {
     return $request->user();
 });
 
 // routes/api.php
 Route::post("user/gentoken/{email}",[UserController::class,"gentoken"]);
-Route::get('/login',function (Request $request) {
-    return response()->json('yep');
-})->name('login');
+// Route::get('/login',function (Request $request) {
+//     return response()->json('yep');
+// })->name('login');
 
-
+Route::middleware(['auth:sanctum'])->group(function () {
+    // Your authenticated routes here
+    Route::get('/employees', [EmployeeController::class, 'index']);
+});Route::middleware(['auth:sanctum'])->group(function () {
+    // Your authenticated routes here
+    Route::get('/employees', [EmployeeController::class, 'index']);
+});
 Route::get('/tasks', [TaskController::class, 'index']);
 // Task routes
 
@@ -87,8 +94,7 @@ Route::get('/task/{taskId}/group', [TaskController::class, 'getGroupByTask']); /
 // Employee routes
 
 // Get all Employees
-Route::get('/employee', [EmployeeController::class, 'index']);
-// Route::get('/employe', [EmployeeController::class, 'index']);
+// Route::get('/employee', [EmployeeController::class, 'index']);
 
 // Search Employees by name
 Route::get('/employee/search', [EmployeeController::class, 'searchByEmail']);
@@ -113,8 +119,6 @@ Route::post('/employee/login', [EmployeeController::class, 'login']);
 Route::post('/employee/register', [EmployeeController::class, 'register']);
 
 Route::post('/employee/whats',[EmployeeController::class,'whatsApp']);
-
-Route::get("employees/isonline",[EmployeeController::class,"isOnline"]);
 
 // group routes
 
@@ -250,17 +254,14 @@ Route::get('user/{id}/tasks' , [RealationsController::class , 'userTasks']);
 Route::post('/tasks/settrueatclint/{task_id}',[TaskController::class,"setValueTrue"]);
 Route::post('/tasks/settrueatsite/{task_id}',[TaskController::class,"setValueTrueatsite"]);
 
-Route::post('/tasks/gettasksbystatus/{status}',[TaskController::class,"getTasksByStatus"]);
-
-//UserRequest Routes
-Route::get('/userrequests',[UserRequestController::class,"index"]);
-Route::post('/userrequests',[UserRequestController::class,"store"]);
-Route::put('/userrequests/{id}',[UserRequestController::class,'update']);
-Route::delete('/userrequests/{id}',[UserRequestController::class,'destroy']);
 
 
 //user login
 Route::post('user/login',[UserController::class,'login']);
 //user register
 Route::post('user/register',[UserController::class,'register']);
+
+
+Route::post('/bills',[BillController::class , 'store']);
+Route::get('/bills/{id}',[BillController::class , 'clientBill']);
 

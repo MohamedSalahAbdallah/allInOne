@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
-use App\Models\EmployeeSkill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -16,13 +15,26 @@ use Laravel\Sanctum\Sanctum;
 
 class EmployeeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     /**
+
      * Bootstrap any application services.
      */
     public function boot(): void
     {
         Sanctum::usePersonalAccessTokenModel(Employee::class);
     }
+
+    * Bootstrap any application services.
+    */
+
+    // public function boot(): void
+    // {
+    //     Sanctum::usePersonalAccessTokenModel(Employee::class);
+    // }
 
 
    /**
@@ -39,8 +51,8 @@ public function imageHandle($image,$imageTitle){
 }
 public function index()
 {
-
-    return Employee::with(['employee_skill','employee_training'])->get();
+    $this->authorize('employee_index');
+    return Employee::all();
 }
 
 /**
@@ -70,15 +82,7 @@ public function searchByEmail(Request $request)
  */
 public function store(Request $request)
 {
-    $employee=Employee::where('id',$request->id)->get();
-    $skill=new EmployeeSkill;
-    $skill->employee_id=$request->id;
-    $skill->name=$request->name;
-    $skill->duration=$request->duration;
-    $skill->save();
-
-
-    return response()->json($employee);
+    return Employee::create($request->all());
 }
 
 /**
@@ -286,6 +290,25 @@ public function register(Request $request){
         return response()->json($employee, 200);
 
 
+
+    // $keysToCopy = ['personal_image', 'criminal_case','id_card_front','id_card_back', 'training_certificate'];
+
+    // $destinationArray = [];
+    // $namelist=[];
+    // foreach ($keysToCopy as $key) {
+    //     if (isset($request[$key])) {
+    //         $destinationArray[$key] = $request[$key];
+    //     }
+    // }
+
+    // foreach ($destinationArray as $aimage) {
+    //     $image = $aimage;
+    //     $imageName = $image.$request->name .'.' . $image->extension();
+    //     $image->move(public_path('emp_pics'), $imageName);
+    //     $namelist[]=$imageName;
+
+    // }
+
 }
 
 
@@ -309,11 +332,5 @@ public function whatsApp(Request $request){
 
 print($message->sid);
 }
-
-    //get emplyees who is active
-    public function isOnline(Request $request){
-        $employee=Employee::where('is_online',true)->get();
-        return response()->json($employee,200);
-    }
 
 }

@@ -24,6 +24,10 @@ class order extends Model
     ];
 
     public function task() {
-        return $this->belongsTo(Task::class,'task_id');
+        return $this->belongsTo(Task::class);
     }
+    // public function bill()
+    // {
+    //     return $this->hasOne(Bill::class);
+    // }
 }

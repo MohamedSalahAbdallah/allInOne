@@ -45,26 +45,23 @@ class EmployeeFactory extends Factory
             'email' => $this->faker->unique()->safeEmail,
             'phone' => $this->faker->phoneNumber,
             'password' => bcrypt('password'), // Default password, you may want to change this
-            'location'=> $this->faker->address,
             // 'facebook' => $this->faker->url,
             // 'linkedin' => $this->faker->url,
-            // 'main_language' => $this->faker->languageCode,
-            // 'secondary_language' => $this->faker->languageCode,
+            'main_language' => $this->faker->languageCode,
+            'secondary_language' => $this->faker->languageCode,
             // 'first_skill' => $this->faker->word,
             // 'first_skill_duration' => $this->faker->word,
             // 'training_name' => $this->faker->word,
             // 'training_duration' => $this->faker->word,
             // 'training_certificate' => $this->faker->word,
-            // 'experience' => $this->faker->paragraph,
-            // 'is_permanent' => $this->faker->boolean,
-            // 'manager_id' => null, // You may want to adjust this depending on your logic
+            'experience' => $this->faker->paragraph,
+            'is_permanent' => $this->faker->boolean,
+            'manager_id' => null, // You may want to adjust this depending on your logic
             'job_id' => function () {
                 return \App\Models\Job::factory()->create()->id;
             },
             'job_type' => $this->faker->word,
             'level' => $this->faker->numberBetween(1, 10),
-            'is_active' => $this->faker->boolean,
-            'is_online' => $this->faker->boolean,
 
             ];
     }

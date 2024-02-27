@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
-
-class Employee extends SanctumPersonalAccessToken
+class Employee extends Authenticatable
 {
     use HasFactory,HasApiTokens;
 
@@ -50,7 +50,6 @@ class Employee extends SanctumPersonalAccessToken
         'manager_id',
         'job_id',
         'level',
-        'is_online',
     ];
 
     public function task()
@@ -68,13 +67,5 @@ class Employee extends SanctumPersonalAccessToken
 
     public function job(){
         return $this->belongsTo(Job::class, 'job_id');
-    }
-
-    public function employee_skill() {
-        return $this->hasMany(EmployeeSkill::class);
-    }
-
-    public function employee_training() {
-        return $this->hasMany(EmployeeTraining::class);
     }
 }
