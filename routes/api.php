@@ -10,6 +10,7 @@ use App\Http\Controllers\TaskEmployeeController;
 use App\Http\Controllers\GroupEmployeeController;
 use App\Http\Controllers\groupController;
 use App\Http\Controllers\groupTaskController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RealationsController;
@@ -269,4 +270,13 @@ Route::get('/bills/{id}',[BillController::class , 'clientBill']);
 
 Route::get('/bills/client/{id}',[BillController::class , 'clientBill']);
 Route::get('/bills/laundry/{id}',[BillController::class , 'laundryBill']);
+
+
+//job routes
+
+Route::get('/jobs',[JobController::class , 'index']);
+Route::post('/jobs',[JobController::class , 'store']);
+Route::get('/jobs/{id}',[JobController::class , 'show']);
+Route::put('/jobs/{id}',[JobController::class , 'update']);
+Route::delete('/jobs/{id}',[JobController::class , 'destroy']);
 
