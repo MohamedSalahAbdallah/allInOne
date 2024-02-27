@@ -17,7 +17,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->string('address');
-            $table->string('asylumCard');
+            $table->string('asylumCard')->nullable();
             $table->string('certificate');
             $table->string('country');
             $table->string('current_address');
@@ -30,25 +30,27 @@ return new class extends Migration
             $table->string('gender');
             $table->string('health');
             $table->string('instagram');
-            $table->string('integratedServices');
+            $table->string('integratedServices')->nullable();
             $table->string('landLine');
             $table->string('linkedIn');
             $table->string('main_language');
             $table->string('marital_status');
-            $table->string('militaryCertificate');
+            $table->string('militaryCertificate')->nullable();
             $table->string('militaryStatus');
             $table->string('name');
             $table->string('name_ar');
-            $table->string('passport');
+            $table->string('passport')->nullable();
             $table->string('phone');
             $table->string('religion');
             $table->string('secondary_language');
             $table->string('state');
-            $table->string('id_nationalCard_back');
-            $table->string('id_nationalCard_front');
-            $table->string('nationalId');
+            $table->string('id_nationalCard_back')->nullable();
+            $table->string('id_nationalCard_front')->nullable();
+            $table->string('nationalId')->nullable();
             $table->string('nationality');
             $table->string('password');
+            $table->string("criminalRecord");
+            $table->string("is_online")->default(false);
             //Is employee active
             $table->boolean('is_active')->default(false);
             //Is employee permanent
