@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Twilio\Rest\Client;
 use Laravel\Sanctum\Sanctum;
 
 
@@ -15,10 +14,10 @@ use Laravel\Sanctum\Sanctum;
 
 class EmployeeController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth:api');
+    // }
     /**
 
      * Bootstrap any application services.
@@ -51,7 +50,7 @@ public function imageHandle($image,$imageTitle){
 }
 public function index()
 {
-    $this->authorize('employee_index');
+
     return Employee::all();
 }
 
@@ -219,6 +218,7 @@ public function register(Request $request){
         'id_nationalCard_front' => 'required_if:passport,null|image',
         'nationalId' => 'required_if:nationality,egyptian|string',
         'nationality' => 'required|string',
+        'criminalRecord' => 'required|image',
         'password' => 'required|min:8',
 
 
@@ -313,23 +313,23 @@ public function register(Request $request){
 
 
 
-public function whatsApp(Request $request){
+// public function whatsApp(Request $request){
 
-    // require_once '/path/to/vendor/autoload.php';
+//     // require_once '/path/to/vendor/autoload.php';
 
-    $sid    = "AC33da0e06e72f6dea0b634ac529726a66";
-    $token  = "abda4327fdfa61be09b8d55b33543681";
-    $twilio = new Client($sid, $token);
+//     $sid    = "AC33da0e06e72f6dea0b634ac529726a66";
+//     $token  = "abda4327fdfa61be09b8d55b33543681";
+//     $twilio = new Client($sid, $token);
 
-    $message = $twilio->messages
-      ->create("whatsapp:".$request->phone, // to
-        array(
-          "from" => "whatsapp:+14155238886",
-          "body" => 'Your appointment is coming up on July 21 at 3PM'
-        )
-      );
+//     $message = $twilio->messages
+//       ->create("whatsapp:".$request->phone, // to
+//         array(
+//           "from" => "whatsapp:+14155238886",
+//           "body" => 'Your appointment is coming up on July 21 at 3PM'
+//         )
+//       );
 
-print($message->sid);
-}
+// print($message->sid);
+// }
 
 }
