@@ -55,12 +55,20 @@ class UserController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        if (!Auth::attempt(['phone' => $request->phone, 'password' => $request->password])) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
-        }
+        $User = User::where('phone', $request->phone)
+                    ->first();
 
 
+    if ($User && Hash::check($request->password,$User->password)) {
+
+
+        // If employee exists, return the employee details
         return response()->json('success', 200);
+    } else {
+        // If employee does not exist, return 'invalidArgument'
+        return response()->json('invalidArgument', 400);
+    }
+
     }
 
     //user register

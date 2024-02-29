@@ -55,7 +55,7 @@ class Task extends Model
     public function supplier(){
         return $this->belongsTo(Supplier::class,"supplier_id");
     }
-    public function orders() {
+    public function order() {
         return $this->hasMany(order::class);
     }
 }

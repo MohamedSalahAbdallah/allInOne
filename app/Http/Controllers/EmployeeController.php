@@ -169,13 +169,13 @@ public function login(Request $request)
 
     $employee = Employee::where('phone', $request->phone)
                     ->first();
-
+    return response($employee);
 
     if ($employee && Hash::check($request->password,$employee->password)) {
-        $token= $employee->createToken($employee->email)->plainTextToken;
+
 
         // If employee exists, return the employee details
-        return response()->json($token, 200);
+        return response()->json("login success", 200);
     } else {
         // If employee does not exist, return 'invalidArgument'
         return response()->json('invalidArgument', 400);
@@ -187,7 +187,7 @@ public function register(Request $request){
     $validator= Validator::make($request->all(),[
 
         'address' => 'required|string',
-        'asylumCard' => 'required_if:entryVisa,refugee|image',
+        'asylamCard' => 'required_if:entryVisa,refugee|image',
         'certificate' => 'required|image',
         'country' => 'required|string',
         'current_address' => 'required|string',
