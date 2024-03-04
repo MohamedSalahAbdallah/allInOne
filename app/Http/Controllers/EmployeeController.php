@@ -66,7 +66,7 @@ public function searchByEmail(Request $request)
         'email' => 'required|string',
     ]);
 
-    $last_name = $request->input('eamil');
+    $last_name = $request->input('email');
 
     $employees = Employee::where('email', 'like', '%' . $last_name . '%')->get();
 
@@ -164,7 +164,7 @@ public function login(Request $request)
 
     if ($validator->fails()) {
         // If validation fails, return the validation errors
-        return response()->json($validator->errors(), 422);
+        return response()->json($validator->errors(), 200);
     }
 
     $employee = Employee::where('phone', $request->phone)
