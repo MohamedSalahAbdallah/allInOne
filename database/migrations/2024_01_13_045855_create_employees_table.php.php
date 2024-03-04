@@ -26,13 +26,10 @@ return new class extends Migration
             $table->string('date_of_birth');
             $table->string('email');
             $table->string('entryVisa');
-            $table->string('facebook');
             $table->string('gender');
             $table->string('health');
-            $table->string('instagram');
             $table->string('integratedServices')->nullable();
             $table->string('landLine');
-            $table->string('linkedIn');
             $table->string('main_language');
             $table->string('marital_status');
             $table->string('militaryCertificate')->nullable();

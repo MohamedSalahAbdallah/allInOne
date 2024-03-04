@@ -196,13 +196,10 @@ public function register(Request $request){
         'date_of_birth' => 'required|date',
         'email' => 'required|email|unique:employees',
         'entryVisa' => 'required|string',
-        'facebook' => 'required|string',
         'gender' => 'required|string',
         'health' => 'required|string',
-        'instagram' => 'required|string',
         'integratedServices' => 'required_if:health,disabled|image',
         'landLine' => 'required|string',
-        'linkedIn' => 'required|string',
         'main_language' => 'required|string',
         'marital_status' => 'required|string',
         'militaryCertificate' => 'required_if:militaryStatus,complete|image',
@@ -247,11 +244,8 @@ public function register(Request $request){
         $employee->current_state = $request->current_state;
         $employee->date_of_birth = $request->date_of_birth;
         $employee->entryVisa = $request->entryVisa;
-        $employee->facebook = $request->facebook;
-        $employee->linkedIn = $request->linkedIn;
         $employee->gender = $request->gender;
         $employee->health = $request->health;
-        $employee->instagram = $request->instagram;
         if (isset($request->integratedServices)) {
             $employee->integratedServices = $this->imageHandle($request->integratedServices, 'integratedServices');
         }
