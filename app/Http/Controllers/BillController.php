@@ -84,14 +84,22 @@ class BillController extends Controller
     {
 
         $bill = Bill::findOrFail($id);
+        $totalItems = 0;
+        foreach($bill->task->orders as $order)
+        {
+            $totalItems+=$order->count;
+        }
+        // return $totalItems;
         return Response::json([
+            'Date'=>Carbon::parse($bill->created_at)->toDateString(),
+            'Time'=>Carbon::parse($bill->created_at)->toTimeString(),
             'Bill_Number'=>$bill->id,
             'Task_Number'=>$bill->task->id,
             'User_Name'=>$bill->user->name,
             'Order'=>$bill->task->orders,
+            'Total_Items'=>$totalItems,
             'Employee_Number'=>$bill->task->employee->phone,
             'Employee_Name'=>$bill->task->employee->name,
-
 
         ]);
 
