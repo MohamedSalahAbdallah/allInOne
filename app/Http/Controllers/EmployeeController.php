@@ -164,7 +164,7 @@ public function login(Request $request)
 
     if ($validator->fails()) {
         // If validation fails, return the validation errors
-        return response()->json($validator->errors(), 200);
+        return response()->json([$validator->errors()], 422);
     }
 
     $employee = Employee::where('phone', $request->phone)
