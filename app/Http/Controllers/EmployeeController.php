@@ -169,7 +169,7 @@ public function login(Request $request)
 
     $employee = Employee::where('phone', $request->phone)
                     ->first();
-    return response($employee);
+
 
     if ($employee && Hash::check($request->password,$employee->password)) {
 
@@ -280,6 +280,9 @@ public function register(Request $request){
         }
         if (isset($request->criminalRecord)) {
             $employee->criminalRecord = $this->imageHandle($request->criminalRecord, 'criminalRecord');
+        }
+        if (isset($request->asylamCard)) {
+            $employee->asylamCard = $this->imageHandle($request->asylamCard, 'asylamCard');
         }
         $employee->nationalId = $request->nationalId;
         $employee->nationality = $request->nationality;

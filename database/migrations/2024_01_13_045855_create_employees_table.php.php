@@ -36,7 +36,7 @@ return new class extends Migration
             $table->string('main_language');
             $table->string('marital_status');
             $table->string('militaryCertificate')->nullable();
-            $table->string('militaryStatus');
+            $table->string('militaryStatus')->nullable();
             $table->string('name');
             $table->string('name_ar');
             $table->string('passport')->nullable();
