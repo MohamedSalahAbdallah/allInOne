@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Request;
+use App\Models\UserRequest;
 use Illuminate\Http\Request;
 
-class RequestController extends Controller
+class UserRequestController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +26,7 @@ class RequestController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+    public function show(UserRequest $userRequest)
     {
         //
     }
@@ -34,7 +34,7 @@ class RequestController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Request $request)
+    public function update(Request $request, UserRequest $userRequest)
     {
         //
     }
@@ -42,7 +42,7 @@ class RequestController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy(UserRequest $userRequest)
     {
         //
     }

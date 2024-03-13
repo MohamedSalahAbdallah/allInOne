@@ -5,12 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Request extends Model
+class UserRequest extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-    public function users()
-    {
-        return $this->BelongsToMany(User::class , 'requests');
-    }
 }

@@ -13,7 +13,7 @@ use App\Models\Task;
 use App\Models\group;
 use App\Models\Job;
 use App\Models\order;
-use App\Models\Request;
+use App\Models\UserRequest;
 use App\Models\sector;
 use App\Models\SubDepartment;
 use App\Models\supplier;
@@ -32,8 +32,8 @@ class DatabaseSeeder extends Seeder
         SubDepartment::factory()->count(5)->create();
         Job::factory()->count(5)->create();
         User::factory()->count(20)->create();
-        Request::factory()->count(5)->create();
         Employee::factory()->count(10)->create();
+        UserRequest::factory()->count(5)->create();
         //    group::factory()->count(5)->create();
         //
         sector::factory()->count(10)->create();
