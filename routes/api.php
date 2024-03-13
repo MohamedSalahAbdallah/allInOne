@@ -18,7 +18,9 @@ use App\Http\Controllers\RequestController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserRequestController;
 use App\Http\Controllers\VehicleController;
+use App\Models\UserRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -279,4 +281,4 @@ Route::get('/jobs/{id}',[JobController::class , 'show']);
 Route::put('/jobs/{id}',[JobController::class , 'update']);
 Route::delete('/jobs/{id}',[JobController::class , 'destroy']);
 
-Route::get('/requests' , [RequestController::class , 'index']);
+Route::get('/requests' , [UserRequestController::class , 'index']);
