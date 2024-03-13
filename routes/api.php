@@ -42,11 +42,9 @@ Route::post("user/gentoken/{email}",[UserController::class,"gentoken"]);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // Your authenticated routes here
-    Route::get('/employees', [EmployeeController::class, 'index']);
-});Route::middleware(['auth:sanctum'])->group(function () {
-    // Your authenticated routes here
-    Route::get('/employees', [EmployeeController::class, 'index']);
 });
+Route::get('/employees', [EmployeeController::class, 'index']);
+
 Route::get('/tasks', [TaskController::class, 'index']);
 // Task routes
 
