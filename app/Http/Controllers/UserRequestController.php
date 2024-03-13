@@ -12,7 +12,7 @@ class UserRequestController extends Controller
      */
     public function index()
     {
-        return UserRequest::where('status' , false)->get();
+        return UserRequest::where('status' , false)->with('user')->get();
     }
 
     /**
