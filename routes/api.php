@@ -16,10 +16,13 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RealationsController;
+use App\Http\Controllers\RequestController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserRequestController;
 use App\Http\Controllers\VehicleController;
+use App\Models\UserRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,11 +47,9 @@ Route::post("user/gentoken/{email}",[UserController::class,"gentoken"]);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // Your authenticated routes here
-    Route::get('/employees', [EmployeeController::class, 'index']);
-});Route::middleware(['auth:sanctum'])->group(function () {
-    // Your authenticated routes here
-    Route::get('/employees', [EmployeeController::class, 'index']);
 });
+Route::get('/employees', [EmployeeController::class, 'index']);
+
 Route::get('/tasks', [TaskController::class, 'index']);
 // Task routes
 
@@ -296,3 +297,5 @@ Route::delete('/jobs/{id}',[JobController::class , 'destroy']);
 
 
 
+
+Route::get('/requests' , [UserRequestController::class , 'index']);
