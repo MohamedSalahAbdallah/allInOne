@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class JobController extends Controller
 {
@@ -17,23 +18,35 @@ class JobController extends Controller
     // job store
     public function store(Request $request)
     {
-        $job = new Job();
-        $job->code = $request->code;
-        $job->name = $request->name;
-        $job->description = $request->description;
-        $job->status = $request->status;
-        $job->department_id = $request->department_id;
-        $job->subDepartment_id = $request->subDepartment_id;
+        $validator = Validator::make($request->all(), [
+            'job_code' => 'required|numeric',
+            'name' => 'required',
+            'description' => 'required',
+            'department_id' => 'required|numeric',
+            'subDepartment_id' => 'required|numeric',
+        ]);
 
-        $job->save();
-        return response()->json($job);
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }else {
+            $job = Job::create($request->all());
+            return response()->json($job);
+        }
     }
 
     // job update
     public function update(Request $request, $id)
     {
+       $validator = Validator::make($request->all(), [
+           'job_code' => 'required|numeric',
+           'name' => 'required',
+           'description' => 'required',
+           'department_id' => 'required|numeric',
+           'subDepartment_id' => 'required|numeric'
+       ]);
+
         $job = Job::find($id);
-        $job->code = $request->code;
+        $job->job_code = $request->code;
         $job->name = $request->name;
         $job->description = $request->description;
         $job->status = $request->status;

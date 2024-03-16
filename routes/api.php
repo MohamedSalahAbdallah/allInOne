@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\SubDepartmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
@@ -274,9 +276,23 @@ Route::get('/bills/laundry/{id}',[BillController::class , 'laundryBill']);
 
 //job routes
 
+Route::get('/departments',[DepartmentController::class , 'index']);
+Route::post('/departments',[DepartmentController::class , 'store']);
+Route::get('/departments/{id}',[DepartmentController::class , 'show']);
+Route::put('/departments/{id}',[DepartmentController::class , 'update']);
+Route::delete('/departments/{id}',[DepartmentController::class , 'destroy']);
+
+Route::get('/subdepartments',[SubDepartmentController::class , 'index']);
+Route::post('/subdepartments',[SubDepartmentController::class , 'store']);
+Route::get('/subdepartments/{id}',[SubDepartmentController::class , 'show']);
+Route::put('/subdepartments/{id}',[SubDepartmentController::class , 'update']);
+Route::delete('/subdepartments/{id}',[SubDepartmentController::class , 'destroy']);
+
 Route::get('/jobs',[JobController::class , 'index']);
 Route::post('/jobs',[JobController::class , 'store']);
 Route::get('/jobs/{id}',[JobController::class , 'show']);
 Route::put('/jobs/{id}',[JobController::class , 'update']);
 Route::delete('/jobs/{id}',[JobController::class , 'destroy']);
+
+
 
