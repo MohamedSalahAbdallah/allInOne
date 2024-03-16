@@ -12,7 +12,7 @@ class JobFactory extends Factory
     public function definition()
     {
         return [
-            'job_code' => $this->faker->unique()->word,
+            'job_code' => $this->faker->unique()->numberBetween(0, 1000),
             'name' => $this->faker->word,
             'description' => $this->faker->sentence,
             'department_id' => function () {

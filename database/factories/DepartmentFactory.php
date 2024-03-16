@@ -14,6 +14,7 @@ class DepartmentFactory extends Factory
         return [
             'name' => $this->faker->word,
             'description' => $this->faker->sentence,
+            'department_code' => $this->faker->numberBetween(1, 1000),
         ];
     }
 }

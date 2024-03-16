@@ -21,7 +21,11 @@ class SubDepartmentFactory extends Factory
             //
             'name' => $this->faker->word,
             'description' => $this->faker->sentence,
-            'department_id' => $this->faker->numberBetween(1,4),
+            'sub_department_code' => $this->faker->numberBetween(0, 1000),
+            'department_id' => function () {
+                return Department::factory()->create()->id;
+            } ,
+
         ];
     }
 }
