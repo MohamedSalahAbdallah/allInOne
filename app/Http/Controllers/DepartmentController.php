@@ -18,8 +18,8 @@ class DepartmentController extends Controller
     }
 
     //show
-    public function show(Request $request) {
-        $department = Department::findOrFail($request->id);
+    public function show(Request $request , $id) {
+        $department = Department::findOrFail($id);
         return response()->json($department);
     }
 
@@ -50,7 +50,7 @@ class DepartmentController extends Controller
     }
 
     //update
-    public function update(Request $request) {
+    public function update(Request $request ,$id) {
         $validator = Validator::make($request->all(), [
             'department_code' => 'required|numeric',
             'name' => 'required|string',
@@ -63,7 +63,7 @@ class DepartmentController extends Controller
                 'errors' => $validator->messages(),
             ]);
         }else {
-            $department = Department::findOrFail($request->id);
+            $department = Department::findOrFail($id);
             $department->department_code = $request->department_code;
             $department->name = $request->name;
             $department->description = $request->description;
@@ -75,8 +75,8 @@ class DepartmentController extends Controller
         }
     }
     //delete
-    public function destroy(Request $request) {
-        $department = Department::findOrFail($request->id);
+    public function destroy(Request $request ,$id) {
+        $department = Department::findOrFail($id);
         $department->delete();
         return response()->json([
             'status' => 200,

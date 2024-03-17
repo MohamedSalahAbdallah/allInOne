@@ -15,8 +15,8 @@ class SubDepartmentController extends Controller
     }
 
     //show
-    public function show(Request $request) {
-        return response()->json(SubDepartment::findOrFail($request->id));
+    public function show(Request $request , $id) {
+        return response()->json(SubDepartment::findOrFail($id));
     }
 
     //store
@@ -35,7 +35,7 @@ class SubDepartmentController extends Controller
         }
     }
     //update
-    public function update(Request $request){
+    public function update(Request $request , $id){
         $validator=validator($request->all(),[
             'name'=>'required|unique:sub_departments,name,'.$request->id,
             'description'=>'required',
@@ -45,16 +45,16 @@ class SubDepartmentController extends Controller
         if($validator->fails()){
             return response($validator->errors());
         }else {
-            $subDepartment = SubDepartment::findOrFail($request->id);
+            $subDepartment = SubDepartment::findOrFail($id);
             $subDepartment->update($request->all());
             return response()->json($subDepartment);
         }
     }
     //delete
-    public function destroy(Request $request) {
-        $subDepartment = SubDepartment::findOrFail($request->id);
+
+    public function destroy(Request $request , $id){
+        $subDepartment = SubDepartment::findOrFail($id);
         $subDepartment->delete();
         return response()->json('Deleted Successfully');
     }
 }
-
